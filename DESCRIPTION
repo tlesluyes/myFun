@@ -1,0 +1,17 @@
+Package: myFun
+Type: Package
+Title: myFun is a collection of my favorite R functions, packaged for simplicity
+Version: 1.0.0
+Date: 2023-09-18
+Authors@R: person("Tom", "Lesluyes", email = "lesluyes.tom@iuct-oncopole.fr", role = c("aut", "cre"))
+Description: My utility functions for R
+URL: https://github.com/tlesluyes/myFun
+BugReports: https://github.com/tlesluyes/myFun/issues
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+    GenomicRanges,
+    IRanges
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
