@@ -26,11 +26,12 @@
 #' @export
 computeMD=function(GR1, GR2, nMajor="nMajor", nMinor="nMinor", convertMb=FALSE) {
   require(GenomicRanges)
+  stopifnot(length(convertMb)==1 && is.logical(convertMb))
   profiles=harmonizeGRanges(list(GR1, GR2))
   stopifnot(all(sapply(profiles, function(x) all(c(nMajor, nMinor) %in% names(mcols(x))))))
   stopifnot(all(sapply(profiles, function(x) is.numeric(mcols(x)[, nMajor]))))
   stopifnot(all(sapply(profiles, function(x) is.numeric(mcols(x)[, nMinor]))))
   MD=sum((abs(mcols(profiles[[1]])[, nMajor]-mcols(profiles[[2]])[, nMajor])+abs(mcols(profiles[[1]])[, nMinor]-mcols(profiles[[2]])[, nMinor]))*width(profiles[[1]]))
-  if (convertMb) MD=MD/1000000
+  if (convertMb) MD=MD/1e6
   return(MD)
 }
