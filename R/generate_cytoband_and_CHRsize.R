@@ -7,7 +7,7 @@
 #' @author tlesluyes
 #' @export
 generate_cytoband_and_CHRsize=function(cytoband_file) {
-  cytoband=read.table(paste0(cytoband_file), header=TRUE, stringsAsFactors=FALSE, sep="\t")
+  cytoband=utils::read.table(paste0(cytoband_file), header=TRUE, stringsAsFactors=FALSE, sep="\t")
   colnames(cytoband)[1:3]=c("chr", "start", "end")
   cytoband=cytoband[which(cytoband$chr %in% paste0(rep(c("", "chr"), each=24), rep(c(1:22, "X", "Y"), 2))), ]
   cytoband$start=cytoband$start+1

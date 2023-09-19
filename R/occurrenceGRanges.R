@@ -5,21 +5,20 @@
 #' @param myMetadata a vector of metadata to consider
 #' @return A GRanges object with nSamples as the total number of samples and metadata columns with the occurrence of events
 #' @examples
-#' require(GenomicRanges)
+#' require("GenomicRanges")
 #' GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), Gain=TRUE, Loss=FALSE)
 #' GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), Gain=FALSE, Loss=TRUE)
 #' occurrenceGRanges(list(GR1, GR2),c("Gain", "Loss"))
 #' @author tlesluyes
 #' @export
 occurrenceGRanges=function(myGRList, myMetadata) {
-  require(GenomicRanges)
   checkGRlist(myGRList)
-  stopifnot(all(sapply(myGRList, function(x) all(myMetadata %in% names(mcols(x))))))
-  OUT=disjoin(Reduce(c, myGRList)) # Create a list of all regions
-  OUT$nSamples=apply(do.call(cbind, lapply(myGRList, function(x) countOverlaps(OUT, x))), 1, sum) # Get the number of samples for each region
+  stopifnot(all(sapply(myGRList, function(x) all(myMetadata %in% names(GenomicRanges::mcols(x))))))
+  OUT=GenomicRanges::disjoin(Reduce(c, myGRList)) # Create a list of all regions
+  OUT$nSamples=apply(do.call(cbind, lapply(myGRList, function(x) GenomicRanges::countOverlaps(OUT, x))), 1, sum) # Get the number of samples for each region
   for (i in myMetadata) { # For each metadata
-    stopifnot(all(sapply(myGRList, function(x) all(mcols(x)[, i] %in% c(TRUE, FALSE))))) # Make sure metadata is TRUE/FALSE
-    mcols(OUT)[, i]=apply(do.call(cbind, lapply(myGRList, function(x) countOverlaps(OUT, x[which(mcols(x)[, i]==TRUE)]))), 1, sum) # Get the number of samples with specific metadata for each region
+    stopifnot(all(sapply(myGRList, function(x) all(GenomicRanges::mcols(x)[, i] %in% c(TRUE, FALSE))))) # Make sure metadata is TRUE/FALSE
+    GenomicRanges::mcols(OUT)[, i]=apply(do.call(cbind, lapply(myGRList, function(x) GenomicRanges::countOverlaps(OUT, x[which(GenomicRanges::mcols(x)[, i]==TRUE)]))), 1, sum) # Get the number of samples with specific metadata for each region
   }; rm(i)
   return(OUT)
 }

@@ -8,7 +8,7 @@
 #' @param convertMb a boolean, the MD will be converted to megabases if set to TRUE (default: FALSE)
 #' @return A numeric value representing the MD
 #' @examples
-#' require(GenomicRanges)
+#' require("GenomicRanges")
 #' GR1=GRanges(seqnames=rep("1", 3),
 #'             ranges=IRanges(start=c(1, 1001, 10001),end=c(1000, 10000, 20000)),
 #'             nMajor=c(1, 2, 1),
@@ -25,13 +25,12 @@
 #' @author tlesluyes
 #' @export
 computeMD=function(GR1, GR2, nMajor="nMajor", nMinor="nMinor", convertMb=FALSE) {
-  require(GenomicRanges)
   stopifnot(length(convertMb)==1 && is.logical(convertMb))
   profiles=harmonizeGRanges(list(GR1, GR2))
-  stopifnot(all(sapply(profiles, function(x) all(c(nMajor, nMinor) %in% names(mcols(x))))))
-  stopifnot(all(sapply(profiles, function(x) is.numeric(mcols(x)[, nMajor]))))
-  stopifnot(all(sapply(profiles, function(x) is.numeric(mcols(x)[, nMinor]))))
-  MD=sum((abs(mcols(profiles[[1]])[, nMajor]-mcols(profiles[[2]])[, nMajor])+abs(mcols(profiles[[1]])[, nMinor]-mcols(profiles[[2]])[, nMinor]))*width(profiles[[1]]))
+  stopifnot(all(sapply(profiles, function(x) all(c(nMajor, nMinor) %in% names(GenomicRanges::mcols(x))))))
+  stopifnot(all(sapply(profiles, function(x) is.numeric(GenomicRanges::mcols(x)[, nMajor]))))
+  stopifnot(all(sapply(profiles, function(x) is.numeric(GenomicRanges::mcols(x)[, nMinor]))))
+  MD=sum((abs(GenomicRanges::mcols(profiles[[1]])[, nMajor]-GenomicRanges::mcols(profiles[[2]])[, nMajor])+abs(GenomicRanges::mcols(profiles[[1]])[, nMinor]-GenomicRanges::mcols(profiles[[2]])[, nMinor]))*IRanges::width(profiles[[1]]))
   if (convertMb) MD=MD/1e6
   return(MD)
 }

@@ -6,7 +6,7 @@
 #' @param CNstatus a metadata column name for the copy-number status (default: "CNstatus"). Can be total (e.g. "3") or allele-specific (e.g. "2+1")
 #' @return A percentage representing the ISA
 #' @examples
-#' require(GenomicRanges)
+#' require("GenomicRanges")
 #' GR1=GRanges(seqnames=rep("1", 3),
 #'             ranges=IRanges(start=c(1, 1001, 10001),end=c(1000, 10000, 20000)),
 #'             CNstatus=c("1+1", "2+1", "1+1"))
@@ -21,9 +21,8 @@
 #' @author tlesluyes
 #' @export
 computeISA=function(GR1, GR2, CNstatus="CNstatus") {
-  require(GenomicRanges)
   profiles=harmonizeGRanges(list(GR1, GR2))
-  stopifnot(all(sapply(profiles, function(x) CNstatus %in% names(mcols(x)))))
-  sameCN=which(mcols(profiles[[1]])[, CNstatus]==mcols(profiles[[2]])[, CNstatus])
-  return(sum(width(profiles[[1]][sameCN, ]))/sum(width(profiles[[1]]))*100)
+  stopifnot(all(sapply(profiles, function(x) CNstatus %in% names(GenomicRanges::mcols(x)))))
+  sameCN=which(GenomicRanges::mcols(profiles[[1]])[, CNstatus]==GenomicRanges::mcols(profiles[[2]])[, CNstatus])
+  return(sum(IRanges::width(profiles[[1]][sameCN, ]))/sum(IRanges::width(profiles[[1]]))*100)
 }

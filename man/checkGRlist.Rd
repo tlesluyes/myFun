@@ -19,7 +19,7 @@ Check that the given object is a list of GRanges objects
 This function checks that the given object is a list of GRanges objects.
 }
 \examples{
-require(GenomicRanges)
+require("GenomicRanges")
 GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000))
 GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000))
 checkGRlist(list(GR1, GR2))

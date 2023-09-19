@@ -23,7 +23,7 @@ Compute the inter-sample agreement (ISA)
 This function computes the inter-sample agreement (ISA) between two profiles (as GRanges objects). This corresponds to the fraction of the genome (\%) with the same CN status.
 }
 \examples{
-require(GenomicRanges)
+require("GenomicRanges")
 GR1=GRanges(seqnames=rep("1", 3),
             ranges=IRanges(start=c(1, 1001, 10001),end=c(1000, 10000, 20000)),
             CNstatus=c("1+1", "2+1", "1+1"))

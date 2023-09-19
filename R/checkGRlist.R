@@ -4,7 +4,7 @@
 #' @param myGRList a list of GRanges objects
 #' @return TRUE if the input is a list of GRanges objects
 #' @examples
-#' require(GenomicRanges)
+#' require("GenomicRanges")
 #' GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000))
 #' GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000))
 #' checkGRlist(list(GR1, GR2))

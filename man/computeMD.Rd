@@ -27,7 +27,7 @@ Compute the Manhattan distance (MD)
 This function computes the Manhattan distance (MD) between two profiles (as GRanges objects).
 }
 \examples{
-require(GenomicRanges)
+require("GenomicRanges")
 GR1=GRanges(seqnames=rep("1", 3),
             ranges=IRanges(start=c(1, 1001, 10001),end=c(1000, 10000, 20000)),
             nMajor=c(1, 2, 1),
