@@ -4,10 +4,12 @@
 \alias{harmonizeGRanges}
 \title{harmonizeGRanges}
 \usage{
-harmonizeGRanges(myGRList)
+harmonizeGRanges(myGRList, cores = 1)
 }
 \arguments{
 \item{myGRList}{a list of GRanges objects, each object should correspond to one CNA profile}
+
+\item{cores}{a numeric, the number of cores to use (default: 1)}
 }
 \value{
 A list of harmonized GRanges objects
