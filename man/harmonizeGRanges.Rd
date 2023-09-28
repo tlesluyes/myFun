@@ -21,11 +21,11 @@ Harmonize GRanges objects
 This function harmonizes GRanges objects by keeping only regions covered by all samples.
 }
 \examples{
-require("GenomicRanges")
+require("GenomicRanges", "doParallel")
 GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), nMajor=1, nMinor=1)
 GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), nMajor=2, nMinor=1)
 harmonizeGRanges(list(GR1, GR2))
-\dontshow{doParallel::stopImplicitCluster()}
+stopImplicitCluster()
 }
 \author{
 tlesluyes
