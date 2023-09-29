@@ -9,11 +9,10 @@
 #' GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), nMajor=1, nMinor=1)
 #' GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), nMajor=2, nMinor=1)
 #' harmonizeGRanges(list(GR1, GR2))
-#' \dontshow{doParallel::stopImplicitCluster()}
 #' @author tlesluyes
 #' @export
 harmonizeGRanges=function(myGRList, cores=1) {
-  doParallel::registerDoParallel(cores=cores)
+  if (cores>1) doParallel::registerDoParallel(cores=cores)
   checkGRlist(myGRList)
   ALL_REGIONS=GenomicRanges::disjoin(Reduce(c, myGRList)) # Create a list of all regions
   ALL_REGIONS=ALL_REGIONS[apply(foreach::foreach(x=myGRList, .combine=cbind) %dopar% {GenomicRanges::countOverlaps(ALL_REGIONS, x)==1}, 1, all)] # Only keep regions covered by all samples (+remove intra-sample overlaps)
