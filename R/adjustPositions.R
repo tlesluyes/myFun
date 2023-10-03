@@ -15,6 +15,8 @@
 #' @author tlesluyes
 #' @export
 adjustPositions=function(DF, CHRsize, chr_column="chr", start_column="start", end_column="end", suffix="_adj") {
+  stopifnot(is.data.frame(DF))
+  stopifnot(is.data.frame(CHRsize))
   stopifnot(all(c(chr_column, start_column, end_column) %in% colnames(DF)))
   DF[, chr_column]=gsub("^chr", "", DF[, chr_column])
   DF[, paste0(start_column, suffix)]=DF[, start_column]

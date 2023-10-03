@@ -29,11 +29,11 @@ This function computes the Manhattan distance (MD) between two profiles (as GRan
 \examples{
 require("GenomicRanges")
 GR1=GRanges(seqnames=rep("1", 3),
-            ranges=IRanges(start=c(1, 1001, 10001),end=c(1000, 10000, 20000)),
+            ranges=IRanges(start=c(1, 1001, 10001), end=c(1000, 10000, 20000)),
             nMajor=c(1, 2, 1),
             nMinor=c(1, 1, 1))
 GR2=GRanges(seqnames=rep("1", 2),
-            ranges=IRanges(start=c(500, 10001),end=c(10000, 25000)),
+            ranges=IRanges(start=c(500, 10001), end=c(10000, 25000)),
             nMajor=c(2, 1),
             nMinor=c(1, 1))
 # in this example:

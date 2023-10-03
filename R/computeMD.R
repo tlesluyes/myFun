@@ -10,11 +10,11 @@
 #' @examples
 #' require("GenomicRanges")
 #' GR1=GRanges(seqnames=rep("1", 3),
-#'             ranges=IRanges(start=c(1, 1001, 10001),end=c(1000, 10000, 20000)),
+#'             ranges=IRanges(start=c(1, 1001, 10001), end=c(1000, 10000, 20000)),
 #'             nMajor=c(1, 2, 1),
 #'             nMinor=c(1, 1, 1))
 #' GR2=GRanges(seqnames=rep("1", 2),
-#'             ranges=IRanges(start=c(500, 10001),end=c(10000, 25000)),
+#'             ranges=IRanges(start=c(500, 10001), end=c(10000, 25000)),
 #'             nMajor=c(2, 1),
 #'             nMinor=c(1, 1))
 #' # in this example:
@@ -25,11 +25,12 @@
 #' @author tlesluyes
 #' @export
 computeMD=function(GR1, GR2, nMajor="nMajor", nMinor="nMinor", convertMb=FALSE) {
+  checkGRlist(list(GR1, GR2))
   stopifnot(length(convertMb)==1 && is.logical(convertMb))
+  stopifnot(all(sapply(list(GR1, GR2), function(x) all(c(nMajor, nMinor) %in% names(GenomicRanges::mcols(x))))))
+  stopifnot(all(sapply(list(GR1, GR2), function(x) is.numeric(GenomicRanges::mcols(x)[, nMajor]))))
+  stopifnot(all(sapply(list(GR1, GR2), function(x) is.numeric(GenomicRanges::mcols(x)[, nMinor]))))
   profiles=harmonizeGRanges(list(GR1, GR2))
-  stopifnot(all(sapply(profiles, function(x) all(c(nMajor, nMinor) %in% names(GenomicRanges::mcols(x))))))
-  stopifnot(all(sapply(profiles, function(x) is.numeric(GenomicRanges::mcols(x)[, nMajor]))))
-  stopifnot(all(sapply(profiles, function(x) is.numeric(GenomicRanges::mcols(x)[, nMinor]))))
   MD=sum((abs(GenomicRanges::mcols(profiles[[1]])[, nMajor]-GenomicRanges::mcols(profiles[[2]])[, nMajor])+abs(GenomicRanges::mcols(profiles[[1]])[, nMinor]-GenomicRanges::mcols(profiles[[2]])[, nMinor]))*IRanges::width(profiles[[1]]))
   if (convertMb) MD=MD/1e6
   return(MD)

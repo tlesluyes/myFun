@@ -4,12 +4,16 @@
 \alias{splitDF}
 \title{splitDF}
 \usage{
-splitDF(DF, chunks)
+splitDF(DF, chunks, shuffle = FALSE, seed = 1234)
 }
 \arguments{
 \item{DF}{a data.frame to split}
 
 \item{chunks}{a number of chunks to obtain}
+
+\item{shuffle}{a boolean, whether to shuffle the data.frame before splitting (default: FALSE)}
+
+\item{seed}{a number, the seed for the random number generator (default: 1234)}
 }
 \value{
 A list of data.frames
