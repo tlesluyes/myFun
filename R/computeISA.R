@@ -21,8 +21,9 @@
 #' @author tlesluyes
 #' @export
 computeISA=function(GR1, GR2, CNstatus="CNstatus") {
+  checkGRlist(list(GR1, GR2))
+  stopifnot(all(sapply(list(GR1, GR2), function(x) CNstatus %in% names(GenomicRanges::mcols(x)))))
   profiles=harmonizeGRanges(list(GR1, GR2))
-  stopifnot(all(sapply(profiles, function(x) CNstatus %in% names(GenomicRanges::mcols(x)))))
   sameCN=which(GenomicRanges::mcols(profiles[[1]])[, CNstatus]==GenomicRanges::mcols(profiles[[2]])[, CNstatus])
   return(sum(IRanges::width(profiles[[1]][sameCN, ]))/sum(IRanges::width(profiles[[1]]))*100)
 }

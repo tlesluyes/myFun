@@ -8,7 +8,7 @@
 #' require("GenomicRanges")
 #' GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), Gain=TRUE, Loss=FALSE)
 #' GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), Gain=FALSE, Loss=TRUE)
-#' occurrenceGRanges(list(GR1, GR2),c("Gain", "Loss"))
+#' occurrenceGRanges(list(GR1, GR2), c("Gain", "Loss"))
 #' @author tlesluyes
 #' @export
 occurrenceGRanges=function(myGRList, myMetadata) {
