@@ -109,11 +109,10 @@ get_shortest_path=function(paths, wanted_WGD=NA, count_WGD=FALSE) {
     stopifnot(wanted_WGD %in% n_WGD)
     paths=paths[which(n_WGD==wanted_WGD)]
   }
+  path_size=sapply(paths, length)
+  if (!count_WGD) path_size=path_size-sapply(paths, function(x) length(which(x=="WGD")))
+  names(path_size)=sapply(paths, paste, collapse=";")
   # Keep the shortest path
-  paths=paths[[which.min(sapply(paths, length))]]
-  out=length(paths)
-  names(out)=paste(paths, collapse=";")
-  # Since WGD affects multiple chromosomes, we may not want to count such an event multiple times
-  if (!count_WGD && "WGD" %in% paths) out=out-length(which(paths=="WGD"))
-  return(out)
+  path_size=path_size[which.min(path_size)]
+  return(path_size)
 }
