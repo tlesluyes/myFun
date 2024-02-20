@@ -221,3 +221,16 @@ summarise_segmetation(DF, "chr", "pos", "pos", c("logR", "BAF"))
 # $IDs$`5`
 # [1] "SNP_14" "SNP_15" "SNP_16"
 ```
+
+### Where do my packages come from?
+```R
+Rpackages()
+#               Package   ...         Source
+# abind           abind   ...           CRAN
+# aCGH             aCGH   ...   Bioconductor
+# affxparser affxparser   ...   Bioconductor
+# affy             affy   ...   Bioconductor
+# affyio         affyio   ...   Bioconductor
+# anndata       anndata   ...           CRAN
+# ...
+```
