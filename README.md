@@ -7,7 +7,7 @@ myFun is a collection of my favorite R functions, packaged for simplicity.
 
 ### Dependencies
 ```R
-install.packages(c("doParallel", "foreach"))
+install.packages(c("doParallel", "foreach", "rvest"))
 BiocManager::install(c("GenomicRanges", "IRanges"))
 ```
 

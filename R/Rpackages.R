@@ -26,7 +26,7 @@ Rpackages=function(CRAN_URL="http://cran.us.r-project.org",
            ifelse(i %in% Bioconductor$Package, "Bioconductor", NA))
     FROM=FROM[!is.na(FROM)]
     # If it is not from CRAN or Bioconductor, test whether it is a base package
-    if (length(FROM)==0 && i %in% c("base", "compiler", "datasets", "grDevices", "graphics", "grid", "methods", "parallel", "splines", "stats", "stats4", "tcltk", "tools", "utils")) FROM="Base"
+    if (length(FROM)==0 && i %in% c("base", "compiler", "datasets", "grDevices", "graphics", "grid", "methods", "parallel", "splines", "stats", "stats4", "tcltk", "tools", "translations", "utils")) FROM="Base"
     # Otherwise, it looks like an external package
     if (length(FROM)==0) FROM="External"
     # The collapse is needed if a package exists in both CRAN and Bioconductor (not sure this could happen though)
