@@ -7,7 +7,10 @@ myFun is a collection of my favorite R functions, packaged for simplicity.
 
 ### Dependencies
 ```R
-install.packages(c("doParallel", "foreach", "rvest"))
+# General dependencies
+install.packages(c("devtools", "BiocManager"))
+# Package dependencies
+install.packages(c("doParallel", "foreach", "rvest", "networkD3"))
 BiocManager::install(c("GenomicRanges", "IRanges"))
 ```
 
@@ -233,4 +236,9 @@ Rpackages()
 # affyio         affyio   ...   Bioconductor
 # anndata       anndata   ...           CRAN
 # ...
+
+# Show package dependencies
+myPackages=RpackageDependencies()
+head(myPackages$nodes)
+print(myPackages$plot) # networkD3 plot
 ```

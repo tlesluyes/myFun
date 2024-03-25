@@ -1,8 +1,8 @@
 Package: myFun
 Type: Package
 Title: myFun is a collection of my favorite R functions, packaged for simplicity
-Version: 1.0.8
-Date: 2024-02-20
+Version: 1.0.9
+Date: 2024-03-25
 Authors@R: person("Tom", "Lesluyes", email = "lesluyes.tom@iuct-oncopole.fr", role = c("aut", "cre"))
 Author: Tom Lesluyes [aut, cre]
 Maintainer: Tom Lesluyes <lesluyes.tom@iuct-oncopole.fr>
@@ -19,6 +19,7 @@ Imports:
     IRanges,
     doParallel,
     foreach,
-    rvest
+    rvest,
+    networkD3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
