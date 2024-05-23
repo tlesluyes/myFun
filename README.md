@@ -1,5 +1,5 @@
 # myFun
-myFun is a collection of my favorite R functions, packaged for simplicity.
+myFun is a collection of my favourite R functions, packaged for simplicity.
 
 [![R package version](https://img.shields.io/github/r-package/v/tlesluyes/myFun?color=blue)](manual/myFun.pdf) [![License](https://img.shields.io/github/license/tlesluyes/myFun?label=License&color=blue)](LICENSE) [![GitHub workflow status](https://img.shields.io/github/actions/workflow/status/tlesluyes/myFun/r.yml?logo=github&label=R%20CMD%20check)](https://github.com/tlesluyes/myFun/actions/)
 
@@ -10,7 +10,7 @@ myFun is a collection of my favorite R functions, packaged for simplicity.
 # General dependencies
 install.packages(c("devtools", "BiocManager"))
 # Package dependencies
-install.packages(c("doParallel", "foreach", "rvest", "networkD3"))
+install.packages(c("doParallel", "foreach", "networkD3", "rvest", "S4Vectors"))
 BiocManager::install(c("GenomicRanges", "IRanges"))
 ```
 
@@ -81,7 +81,7 @@ head(cytoband)
 #   1 12500001 15900000 p36.21   gpos50 grey60  12500001 15900000
 
 # Empty plot, CGH-like
-plot(NULL, ylim=c(0,1), xlim=c(1, CHRsize$sum[nrow(CHRsize)]), xaxt='n', yaxt="n", xlab="Chromosomes", ylab="Whatever", cex.lab=1.25, xaxs="i")
+plot(NULL, ylim=c(0, 1), xlim=c(1, CHRsize$sum[nrow(CHRsize)]), xaxt='n', yaxt="n", xlab="Chromosomes", ylab="Whatever", cex.lab=1.25, xaxs="i")
 abline(v=CHRsize$sum[2:nrow(CHRsize)], col="grey")
 axis(1, at=CHRsize$middle, labels = CHRsize$chr, las=2)
 ```
@@ -127,12 +127,12 @@ harmonizeGRanges(list(GR1, GR2, GR3))
 ```R
 require("GenomicRanges")
 GR1=GRanges(seqnames=rep("1", 3),
-            ranges=IRanges(start=c(1, 1001, 10001),end=c(1000, 10000, 20000)),
+            ranges=IRanges(start=c(1, 1001, 10001), end=c(1000, 10000, 20000)),
             CNstatus=c("1+1", "2+1", "1+1"),
             nMajor=c(1, 2, 1),
             nMinor=c(1, 1, 1))
 GR2=GRanges(seqnames=rep("1", 2),
-            ranges=IRanges(start=c(500, 10001),end=c(10000, 25000)),
+            ranges=IRanges(start=c(500, 10001), end=c(10000, 25000)),
             CNstatus=c("2+1", "1+1"),
             nMajor=c(2, 1),
             nMinor=c(1, 1))
@@ -194,7 +194,7 @@ splitDF(DF, 3)
 
 ### How to summrise segmented SNP information?
 ```R
-DF=data.frame(chr=c(rep("chr1", 10),rep("chr2", 6)),
+DF=data.frame(chr=c(rep("chr1", 10), rep("chr2", 6)),
               pos=c(1:10*1e3, 1:6*1e3),
               logR=c(rep(0, 4), rep(0.54, 3), rep(0, 3), rep(-0.86, 3), rep(0, 3)),
               BAF=c(rep(0.5, 4), rep(0.34, 3), rep(0.5, 3), rep(0.09, 3), rep(0.5, 3)),

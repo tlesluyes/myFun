@@ -33,7 +33,6 @@ Show the package dependencies
 Given a folder of R packages, this function reads the DESCRIPTION files of the installed packages and shows their dependencies.
 }
 \examples{
-require(networkD3)
 myDep=RpackageDependencies()
 print(head(myDep$nodes))
 print(head(myDep$links))

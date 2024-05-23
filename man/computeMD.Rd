@@ -27,15 +27,16 @@ Compute the Manhattan distance (MD)
 This function computes the Manhattan distance (MD) between two profiles (as GRanges objects).
 }
 \examples{
-require("GenomicRanges")
-GR1=GRanges(seqnames=rep("1", 3),
-            ranges=IRanges(start=c(1, 1001, 10001), end=c(1000, 10000, 20000)),
-            nMajor=c(1, 2, 1),
-            nMinor=c(1, 1, 1))
-GR2=GRanges(seqnames=rep("1", 2),
-            ranges=IRanges(start=c(500, 10001), end=c(10000, 25000)),
-            nMajor=c(2, 1),
-            nMinor=c(1, 1))
+GR1=GenomicRanges::GRanges(seqnames=rep("1", 3),
+                           ranges=IRanges::IRanges(start=c(1, 1001, 10001),
+                                                   end=c(1000, 10000, 20000)),
+                           nMajor=c(1, 2, 1),
+                           nMinor=c(1, 1, 1))
+GR2=GenomicRanges::GRanges(seqnames=rep("1", 2),
+                           ranges=IRanges::IRanges(start=c(500, 10001),
+                                                   end=c(10000, 25000)),
+                           nMajor=c(2, 1),
+                           nMinor=c(1, 1))
 # in this example:
 #    Region 500-1000 (size=501) is 1+1 for GR1 and 2+1 for GR2
 #    Region 1001-20000 (size=19000) is identical between GR1 and GR2 (both 2+1 and 1+1)

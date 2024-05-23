@@ -6,13 +6,14 @@
 #' @param CNstatus a metadata column name for the copy-number status (default: "CNstatus"). Can be total (e.g. "3") or allele-specific (e.g. "2+1")
 #' @return A percentage representing the ISA
 #' @examples
-#' require("GenomicRanges")
-#' GR1=GRanges(seqnames=rep("1", 3),
-#'             ranges=IRanges(start=c(1, 1001, 10001),end=c(1000, 10000, 20000)),
-#'             CNstatus=c("1+1", "2+1", "1+1"))
-#' GR2=GRanges(seqnames=rep("1", 2),
-#'             ranges=IRanges(start=c(500, 10001),end=c(10000, 25000)),
-#'             CNstatus=c("2+1", "1+1"))
+#' GR1=GenomicRanges::GRanges(seqnames=rep("1", 3),
+#'                            ranges=IRanges::IRanges(start=c(1, 1001, 10001),
+#'                                                    end=c(1000, 10000, 20000)),
+#'                            CNstatus=c("1+1", "2+1", "1+1"))
+#' GR2=GenomicRanges::GRanges(seqnames=rep("1", 2),
+#'                            ranges=IRanges::IRanges(start=c(500, 10001),
+#'                                                    end=c(10000, 25000)),
+#'                            CNstatus=c("2+1", "1+1"))
 #' # in this example:
 #' #    Region 500-1000 (size=501) is 1+1 for GR1 and 2+1 for GR2
 #' #    Region 1001-20000 (size=19000) is identical between GR1 and GR2 (both 2+1 and 1+1)
@@ -22,10 +23,10 @@
 #' @export
 computeISA=function(GR1, GR2, CNstatus="CNstatus") {
   checkGRlist(list(GR1, GR2))
-  stopifnot(all(sapply(list(GR1, GR2), function(x) CNstatus %in% names(GenomicRanges::mcols(x)))))
+  stopifnot(all(sapply(list(GR1, GR2), function(x) CNstatus %in% names(mcols(x)))))
   profiles=harmonizeGRanges(list(GR1, GR2))
-  sameCN=which(GenomicRanges::mcols(profiles[[1]])[, CNstatus]==GenomicRanges::mcols(profiles[[2]])[, CNstatus])
-  return(sum(IRanges::width(profiles[[1]][sameCN, ]))/sum(IRanges::width(profiles[[1]]))*100)
+  sameCN=which(mcols(profiles[[1]])[, CNstatus]==mcols(profiles[[2]])[, CNstatus])
+  return(sum(width(profiles[[1]][sameCN, ]))/sum(width(profiles[[1]]))*100)
 }
 
 #' @title computeISA_batch
@@ -37,25 +38,27 @@ computeISA=function(GR1, GR2, CNstatus="CNstatus") {
 #' @param CNstatus a metadata column name for the copy-number status (default: "CNstatus"). Can be total (e.g. "3") or allele-specific (e.g. "2+1")
 #' @return A matrix of ISA values
 #' @examples
-#' require("GenomicRanges")
-#' GR1=GRanges(seqnames=rep("1", 3),
-#'             ranges=IRanges(start=c(1, 1001, 10001), end=c(1000, 10000, 20000)),
-#'             CNstatus=c("1+1", "2+1", "1+1"))
-#' GR2=GRanges(seqnames=rep("1", 2),
-#'             ranges=IRanges(start=c(500, 10001), end=c(10000, 25000)),
-#'             CNstatus=c("2+1", "1+1"))
-#' GR3=GRanges(seqnames="1",
-#'             ranges=IRanges(start=500, end=25000),
-#'             CNstatus="1+1")
+#' GR1=GenomicRanges::GRanges(seqnames=rep("1", 3),
+#'                            ranges=IRanges::IRanges(start=c(1, 1001, 10001),
+#'                                                    end=c(1000, 10000, 20000)),
+#'                            CNstatus=c("1+1", "2+1", "1+1"))
+#' GR2=GenomicRanges::GRanges(seqnames=rep("1", 2),
+#'                            ranges=IRanges::IRanges(start=c(500, 10001),
+#'                                                    end=c(10000, 25000)),
+#'                            CNstatus=c("2+1", "1+1"))
+#' GR3=GenomicRanges::GRanges(seqnames="1",
+#'                            ranges=IRanges::IRanges(start=500,
+#'                                                    end=25000),
+#'                            CNstatus="1+1")
 #' myGRList=list(GR1, GR2, GR3)
 #' names(myGRList)=c("GR1", "GR2", "GR3")
 #' computeISA_batch(myGRList)
 #' @author tlesluyes
 #' @export
 computeISA_batch=function(myGRList, cores=1, min_seg_size=0, CNstatus="CNstatus") {
-  if (cores>1) doParallel::registerDoParallel(cores=cores)
+  if (cores>1) registerDoParallel(cores=cores)
   checkGRlist(myGRList)
-  stopifnot(all(sapply(myGRList, function(x) all("CNstatus" %in% names(GenomicRanges::mcols(x))))))
+  stopifnot(all(sapply(myGRList, function(x) all("CNstatus" %in% names(mcols(x))))))
   if (is.null(names(myGRList))) {
     NAMES=as.character(1:length(myGRList))
   } else {
@@ -63,14 +66,15 @@ computeISA_batch=function(myGRList, cores=1, min_seg_size=0, CNstatus="CNstatus"
   }
   myGRList=harmonizeGRanges(myGRList, cores=cores)
   if (min_seg_size>0) {
-    TO_KEEP=IRanges::width(myGRList[[1]])>min_seg_size
+    TO_KEEP=width(myGRList[[1]])>min_seg_size
     myGRList=lapply(myGRList, function(x) x[TO_KEEP, ])
     rm(TO_KEEP)
   }
-  CNstatus_matrix=do.call(cbind, lapply(myGRList, function(x) { return(GenomicRanges::mcols(x)[, CNstatus]) }))
-  WIDTHS=IRanges::width(myGRList[[1]])
+  CNstatus_matrix=do.call(cbind, lapply(myGRList, function(x) { return(mcols(x)[, CNstatus]) }))
+  WIDTHS=width(myGRList[[1]])
   SUM_WIDTH=sum(WIDTHS)
-  ISA=foreach::foreach(i=1:length(myGRList), .combine=cbind) %dopar% {
+  ISA=foreach(i=1:length(myGRList), .combine=cbind) %dopar% {
+    i=get("i")
     if (i %% 50==0) print(paste0(i, "/", length(myGRList)))
     SAME=CNstatus_matrix==CNstatus_matrix[, i]
     return(sapply(1:length(myGRList), function(x) sum(WIDTHS[SAME[, x]])/SUM_WIDTH))

@@ -36,19 +36,21 @@ Compute the Manhattan distance (MD) for a batch of samples
 This function computes the Manhattan distance (MD) between multiple profiles (as a list of GRanges objects).
 }
 \examples{
-require("GenomicRanges")
-GR1=GRanges(seqnames=rep("1", 3),
-            ranges=IRanges(start=c(1, 1001, 10001), end=c(1000, 10000, 20000)),
-            nMajor=c(1, 2, 1),
-            nMinor=c(1, 1, 1))
-GR2=GRanges(seqnames=rep("1", 2),
-            ranges=IRanges(start=c(500, 10001), end=c(10000, 25000)),
-            nMajor=c(2, 1),
-            nMinor=c(1, 1))
-GR3=GRanges(seqnames="1",
-            ranges=IRanges(start=500, end=25000),
-            nMajor=1,
-            nMinor=1)
+GR1=GenomicRanges::GRanges(seqnames=rep("1", 3),
+                           ranges=IRanges::IRanges(start=c(1, 1001, 10001),
+                                                   end=c(1000, 10000, 20000)),
+                           nMajor=c(1, 2, 1),
+                           nMinor=c(1, 1, 1))
+GR2=GenomicRanges::GRanges(seqnames=rep("1", 2),
+                           ranges=IRanges::IRanges(start=c(500, 10001),
+                                                   end=c(10000, 25000)),
+                           nMajor=c(2, 1),
+                           nMinor=c(1, 1))
+GR3=GenomicRanges::GRanges(seqnames="1",
+                           ranges=IRanges::IRanges(start=500,
+                                                   end=25000),
+                           nMajor=1,
+                           nMinor=1)
 myGRList=list(GR1, GR2, GR3)
 names(myGRList)=c("GR1", "GR2", "GR3")
 computeMD_batch(myGRList)

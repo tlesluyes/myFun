@@ -21,9 +21,12 @@ Get the occurrence of events
 This function gets the occurrence of events in a list of GRanges objects. All objects must have the same metadata columns and metadata must be TRUE/FALSE.
 }
 \examples{
-require("GenomicRanges")
-GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), Gain=TRUE, Loss=FALSE)
-GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), Gain=FALSE, Loss=TRUE)
+GR1=GenomicRanges::GRanges(seqnames="1",
+                           ranges=IRanges::IRanges(start=1, end=1000),
+                           Gain=TRUE, Loss=FALSE)
+GR2=GenomicRanges::GRanges(seqnames="1",
+                           ranges=IRanges::IRanges(start=10, end=2000),
+                           Gain=FALSE, Loss=TRUE)
 occurrenceGRanges(list(GR1, GR2), c("Gain", "Loss"))
 }
 \author{

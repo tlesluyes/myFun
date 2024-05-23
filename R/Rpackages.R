@@ -10,17 +10,18 @@
 Rpackages=function(CRAN_URL="http://cran.us.r-project.org",
                    Bioconductor_URL="https://www.bioconductor.org/packages/release/bioc/") {
   # Pick CRAN packages
-  CRAN=as.data.frame(utils::available.packages(repos=CRAN_URL))[, c("Package"), drop=FALSE]
+  CRAN=as.data.frame(available.packages(repos=CRAN_URL))[, c("Package"), drop=FALSE]
   CRAN$Source="CRAN"
   # Pick Bioconductor packages
   url=url(Bioconductor_URL, "rb")
-  Bioconductor=as.data.frame(rvest::html_table(rvest::read_html(url))[[1]])[, c("Package"), drop=FALSE]
+  Bioconductor=as.data.frame(html_table(read_html(url))[[1]])[, c("Package"), drop=FALSE]
   close(url)
   Bioconductor$Source="Bioconductor"
   # Pick installed packages
-  myPackages=as.data.frame(utils::installed.packages())
+  myPackages=as.data.frame(installed.packages())
   # Determine the source of each installed package
-  myPackages$Source=foreach::foreach(i=myPackages$Package, .combine=c) %do% {
+  myPackages$Source=foreach(i=myPackages$Package, .combine=c) %do% {
+    i=get("i")
     # Test whether it is from CRAN and/or Bioconductor
     FROM=c(ifelse(i %in% CRAN$Package, "CRAN", NA),
            ifelse(i %in% Bioconductor$Package, "Bioconductor", NA))
@@ -74,7 +75,6 @@ myGroupsDeps=function(x) {
 #' @param saveFile a string defining the name of the HTML file where the network should be saved (default: NULL; no file is saved)
 #' @return A list with nodes (a data.frame of R packages), links (a data.frame of package dependencies) and plot (a network plot using networkD3)
 #' @examples
-#' require(networkD3)
 #' myDep=RpackageDependencies()
 #' print(head(myDep$nodes))
 #' print(head(myDep$links))
@@ -111,7 +111,8 @@ RpackageDependencies=function(customFolder=NULL, customDependencyTypes=NULL, cus
 
   stopifnot(length(simplifyNetwork)==1 && is.logical(simplifyNetwork))
 
-  PACKAGES=foreach::foreach(DIR=customFolder) %do% {
+  PACKAGES=foreach(DIR=customFolder) %do% {
+    DIR=get("DIR")
     # Read the DESCRIPTION file
     DESC=read.dcf(paste0(DIR, "/DESCRIPTION"))
     OUT=list()
@@ -131,7 +132,8 @@ RpackageDependencies=function(customFolder=NULL, customDependencyTypes=NULL, cus
 
   network=list()
   # Create a data.frame of links where source is the package and target is the dependency
-  network$links=foreach::foreach(INDEX=1:length(PACKAGES), .combine=rbind) %do% {
+  network$links=foreach(INDEX=1:length(PACKAGES), .combine=rbind) %do% {
+    INDEX=get("INDEX")
     tmp=data.frame(source="TBD", target="TBD", type="TBD")
     for (i in names(PACKAGES[[INDEX]])) {
       if (length(PACKAGES[[INDEX]][[i]])==1 && is.na(PACKAGES[[INDEX]][[i]])) next
@@ -163,23 +165,23 @@ RpackageDependencies=function(customFolder=NULL, customDependencyTypes=NULL, cus
   colourScale='d3.scaleOrdinal().domain(["No", "Few", "Lot"]).range(["#000000", "#0000ff", "#ff0000"]);'
   network$links$value=1
   # Create the plot
-  network$plot=networkD3::forceNetwork(Links=network$links,
-                                       Nodes=network$nodes,
-                                       Source="source_index",
-                                       Target="target_index",
-                                       NodeID="name",
-                                       Nodesize="ntarget",
-                                       Group="color",
-                                       zoom=TRUE,
-                                       arrows=TRUE,
-                                       Value="value",
-                                       linkColour=customColours[network$links$type],
-                                       opacity=1,
-                                       colourScale=colourScale,
-                                       radiusCalculation="Math.sqrt(d.nodesize*2)+3")
+  network$plot=forceNetwork(Links=network$links,
+                            Nodes=network$nodes,
+                            Source="source_index",
+                            Target="target_index",
+                            NodeID="name",
+                            Nodesize="ntarget",
+                            Group="color",
+                            zoom=TRUE,
+                            arrows=TRUE,
+                            Value="value",
+                            linkColour=customColours[network$links$type],
+                            opacity=1,
+                            colourScale=colourScale,
+                            radiusCalculation="Math.sqrt(d.nodesize*2)+3")
   # Save the plot if needed
   if (!is.null(saveFile)) {
-    networkD3::saveNetwork(network$plot, saveFile)
+    saveNetwork(network$plot, saveFile)
   }
   # Get the number of free nodes
   FREE=which(network$nodes$ntarget==0 & network$nodes$nsource==0)

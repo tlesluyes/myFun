@@ -21,9 +21,12 @@ Harmonize GRanges objects
 This function harmonizes GRanges objects by keeping only regions covered by all samples.
 }
 \examples{
-require("GenomicRanges")
-GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), nMajor=1, nMinor=1)
-GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), nMajor=2, nMinor=1)
+GR1=GenomicRanges::GRanges(seqnames="1",
+                           ranges=IRanges::IRanges(start=1, end=1000),
+                           nMajor=1, nMinor=1)
+GR2=GenomicRanges::GRanges(seqnames="1",
+                           ranges=IRanges::IRanges(start=10, end=2000),
+                           nMajor=2, nMinor=1)
 harmonizeGRanges(list(GR1, GR2))
 }
 \author{

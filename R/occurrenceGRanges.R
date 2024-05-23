@@ -5,20 +5,23 @@
 #' @param myMetadata a vector of metadata to consider
 #' @return A GRanges object with nSamples as the total number of samples and metadata columns with the occurrence of events
 #' @examples
-#' require("GenomicRanges")
-#' GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), Gain=TRUE, Loss=FALSE)
-#' GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), Gain=FALSE, Loss=TRUE)
+#' GR1=GenomicRanges::GRanges(seqnames="1",
+#'                            ranges=IRanges::IRanges(start=1, end=1000),
+#'                            Gain=TRUE, Loss=FALSE)
+#' GR2=GenomicRanges::GRanges(seqnames="1",
+#'                            ranges=IRanges::IRanges(start=10, end=2000),
+#'                            Gain=FALSE, Loss=TRUE)
 #' occurrenceGRanges(list(GR1, GR2), c("Gain", "Loss"))
 #' @author tlesluyes
 #' @export
 occurrenceGRanges=function(myGRList, myMetadata) {
   checkGRlist(myGRList)
-  stopifnot(all(sapply(myGRList, function(x) all(myMetadata %in% names(GenomicRanges::mcols(x)))))) # Make sure metadata exists
-  OUT=GenomicRanges::disjoin(Reduce(c, myGRList)) # Create a list of all regions
-  OUT$nSamples=GenomicRanges::countOverlaps(OUT, GenomicRanges::GRangesList(myGRList)) # Get the number of samples for each region
+  stopifnot(all(sapply(myGRList, function(x) all(myMetadata %in% names(mcols(x)))))) # Make sure metadata exists
+  OUT=disjoin(Reduce(c, myGRList)) # Create a list of all regions
+  OUT$nSamples=countOverlaps(OUT, GRangesList(myGRList)) # Get the number of samples for each region
   for (i in myMetadata) { # For each metadata
-    stopifnot(all(sapply(myGRList, function(x) all(GenomicRanges::mcols(x)[, i] %in% c(TRUE, FALSE))))) # Make sure metadata is TRUE/FALSE
-    GenomicRanges::mcols(OUT)[, i]=GenomicRanges::countOverlaps(OUT, GenomicRanges::GRangesList(lapply(myGRList, function(x) x[GenomicRanges::mcols(x)[, i], ]))) # Get the number of samples with specific metadata for each region
+    stopifnot(all(sapply(myGRList, function(x) all(mcols(x)[, i] %in% c(TRUE, FALSE))))) # Make sure metadata is TRUE/FALSE
+    mcols(OUT)[, i]=countOverlaps(OUT, GRangesList(lapply(myGRList, function(x) x[mcols(x)[, i], ]))) # Get the number of samples with specific metadata for each region
   }; rm(i)
   return(OUT)
 }
