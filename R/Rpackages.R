@@ -111,7 +111,7 @@ RpackageDependencies=function(customFolder=NULL, customDependencyTypes=NULL, cus
 
   stopifnot(length(simplifyNetwork)==1 && is.logical(simplifyNetwork))
 
-  PACKAGES=foreach(DIR=customFolder) %do% {
+  PACKAGES=foreach(DIR=customFolder, .final=function(x) setNames(x, names(customFolder))) %do% {
     DIR=get("DIR")
     # Read the DESCRIPTION file
     DESC=read.dcf(paste0(DIR, "/DESCRIPTION"))
@@ -128,7 +128,6 @@ RpackageDependencies=function(customFolder=NULL, customDependencyTypes=NULL, cus
     }; rm(i)
     return(OUT)
   }
-  names(PACKAGES)=names(customFolder)
 
   network=list()
   # Create a data.frame of links where source is the package and target is the dependency

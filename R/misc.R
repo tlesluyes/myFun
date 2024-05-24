@@ -5,5 +5,6 @@
 #' @importFrom networkD3 forceNetwork saveNetwork
 #' @importFrom rvest html_table read_html
 #' @importFrom S4Vectors mcols mcols<-
+#' @importFrom stats setNames
 #' @importFrom utils available.packages installed.packages read.table
 NULL
