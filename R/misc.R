@@ -1,6 +1,7 @@
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach %do% %dopar% foreach
-#' @importFrom GenomicRanges countOverlaps disjoin GRanges granges GRangesList pintersect
+#' @importFrom GenomeInfoDb seqnames
+#' @importFrom GenomicRanges countOverlaps disjoin GRanges granges GRangesList makeGRangesFromDataFrame pintersect reduce
 #' @importFrom IRanges findOverlapPairs IRanges width
 #' @importFrom networkD3 forceNetwork saveNetwork
 #' @importFrom rvest html_table read_html
