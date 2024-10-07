@@ -11,7 +11,7 @@ myFun is a collection of my favourite R functions, packaged for simplicity.
 install.packages(c("devtools", "BiocManager"))
 # Package dependencies
 install.packages(c("doParallel", "foreach", "networkD3", "rvest", "S4Vectors"))
-BiocManager::install(c("GenomicRanges", "IRanges"))
+BiocManager::install(c("GenomeInfoDb", "GenomicRanges", "IRanges"))
 ```
 
 ### myFun
