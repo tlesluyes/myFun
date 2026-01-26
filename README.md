@@ -10,8 +10,8 @@ myFun is a collection of my favourite R functions, packaged for simplicity.
 # General dependencies
 install.packages(c("devtools", "BiocManager"))
 # Package dependencies
-install.packages(c("doParallel", "foreach", "networkD3", "rvest", "S4Vectors"))
-BiocManager::install(c("GenomeInfoDb", "GenomicRanges", "IRanges"))
+install.packages(c("doParallel", "foreach", "networkD3", "rvest"))
+BiocManager::install(c("GenomeInfoDb", "GenomicRanges", "IRanges", "S4Vectors"))
 ```
 
 ### myFun
