@@ -2,7 +2,7 @@ Package: myFun
 Type: Package
 Title: myFun is a Collection of My Favourite R Functions, Packaged for Simplicity
 Version: 1.0.13
-Date: 2026-01-23
+Date: 2026-02-06
 Authors@R: person("Tom", "Lesluyes", email = "lesluyes.tom@iuct-oncopole.fr", role = c("aut", "cre"))
 Author: Tom Lesluyes [aut, cre]
 Maintainer: Tom Lesluyes <lesluyes.tom@iuct-oncopole.fr>
@@ -25,5 +25,7 @@ Imports:
     S4Vectors,
     stats,
     utils
+Suggests:
+    XVector
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

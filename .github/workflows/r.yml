@@ -46,12 +46,6 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      # Specific instruction for GitHub Actions
-      - name: Install XVector from Bioconductor
-        run: |
-          Rscript -e 'if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")'
-          Rscript -e 'BiocManager::install("XVector", ask = FALSE, update = FALSE)'
-
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
