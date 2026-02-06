@@ -1,28 +1,29 @@
 # myFun
+
 myFun is a collection of my favourite R functions, packaged for simplicity.
 
 [![R package version](https://img.shields.io/github/r-package/v/tlesluyes/myFun?color=blue)](manual/myFun.pdf) [![License](https://img.shields.io/github/license/tlesluyes/myFun?label=License&color=blue)](LICENSE) [![GitHub workflow status](https://img.shields.io/github/actions/workflow/status/tlesluyes/myFun/r.yml?logo=github&label=R%20CMD%20check)](https://github.com/tlesluyes/myFun/actions/)
 
 ## Installation
 
-### Dependencies
 ```R
 # General dependencies
 install.packages(c("devtools", "BiocManager"))
 # Package dependencies
 install.packages(c("doParallel", "foreach", "networkD3", "rvest"))
 BiocManager::install(c("GenomeInfoDb", "GenomicRanges", "IRanges", "S4Vectors"))
-```
-
-### myFun
-```R
+# myFun
 devtools::install_github("tlesluyes/myFun")
 ```
+
 ## Manual
+
 All of the functions are described in [manual/myFun.pdf](manual/myFun.pdf).
 
 ## Some examples
+
 ### What are logR and BAF values for a given copy-number status?
+
 ```R
 # A 2+1 segment in a diploid tumour with 70% purity
 
@@ -34,6 +35,7 @@ computeBAF(2, 1, 0.70, 2)
 ```
 
 ### What is the purity/ploidy fit if a segment has a specific copy-number status?
+
 ```R
 # A segment has logR=0.5361 and BAF=0.3448/0.6552, we expect a 2+1 copy-number status
 computeFit(0.5361, 0.6552, 2, 1, 1)
@@ -48,6 +50,7 @@ computeFit(0.5361, 0.6552, 2, 1, 1)
 ```
 
 ### What are re-estimated purity/ploidy values with changes in purity/ploidy?
+
 ```R
 # A pseudo-diploid sample has purity=74% and ploidy=2.4. What is the re-estimated ploidy if I believe that the sample has purity=61%?
 reestimate_ploidy(0.74, 2.4, 0.61, 0)
@@ -59,6 +62,7 @@ reestimate_purity(0.74, 2.4, "double")
 ```
 
 ### What are the chromosome sizes and bands in hg38?
+
 ```R
 load_CHRsize("hg38")
 head(CHRsize)
@@ -86,9 +90,8 @@ abline(v=CHRsize$sum[2:nrow(CHRsize)], col="grey")
 axis(1, at=CHRsize$middle, labels = CHRsize$chr, las=2)
 ```
 
-### 
-
 ### How to get the genomic locations covered in different CNA profiles?
+
 ```R
 require("GenomicRanges")
 GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), nMajor=1, nMinor=1)
@@ -124,6 +127,7 @@ harmonizeGRanges(list(GR1, GR2, GR3))
 ```
 
 ### How to measure distances between CNA profiles?
+
 ```R
 require("GenomicRanges")
 GR1=GRanges(seqnames=rep("1", 3),
@@ -148,6 +152,7 @@ computeMD(GR1, GR2, nMajor="nMajor", nMinor="nMinor") # Manhattan distance (bp)
 ```
 
 ### How do I go from a 1+1 copy-number state to a 2+0?
+
 ```R
 myPaths=get_all_paths(c(1, 1), c(2, 0), WGD=TRUE)
 print(myPaths)
@@ -167,6 +172,7 @@ get_shortest_path(myPaths, wanted_WGD=0) # shortest path without any WGD: 2 alte
 ```
 
 ### How to split a DF?
+
 ```R
 DF=data.frame(a=1:26, b=letters)
 splitDF(DF, 3)
@@ -193,6 +199,7 @@ splitDF(DF, 3)
 ```
 
 ### How to summrise segmented SNP information?
+
 ```R
 DF=data.frame(chr=c(rep("chr1", 10), rep("chr2", 6)),
               pos=c(1:10*1e3, 1:6*1e3),
@@ -226,6 +233,7 @@ summarise_segmetation(DF, "chr", "pos", "pos", c("logR", "BAF"))
 ```
 
 ### Where do my packages come from?
+
 ```R
 Rpackages()
 #               Package   ...         Source
