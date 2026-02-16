@@ -15,7 +15,7 @@
 #' computeLogR(2, 1, 0.6, 3.5)
 #' @author tlesluyes
 #' @export
-computeLogR=function(nMajor, nMinor, purity, ploidy, digits=4) {
+computeLogR <- function(nMajor, nMinor, purity, ploidy, digits=4) {
   stopifnot(all(is.numeric(c(nMajor, nMinor, purity, ploidy, digits))))
   round(log2((purity*(nMajor+nMinor)+2*(1-purity))/(purity*ploidy+2*(1-purity))), digits)
 }
@@ -36,10 +36,10 @@ computeLogR=function(nMajor, nMinor, purity, ploidy, digits=4) {
 #' computeBAF(1, 0, 0.6)
 #' @author tlesluyes
 #' @export
-computeBAF=function(nMajor, nMinor, purity, digits=4) {
+computeBAF <- function(nMajor, nMinor, purity, digits=4) {
   stopifnot(all(is.numeric(c(nMajor, nMinor, purity, digits))))
-  BAF1=(purity*nMinor+(1-purity))/(purity*(nMajor+nMinor)+2*(1-purity))
-  BAF2=(purity*nMajor+(1-purity))/(purity*(nMajor+nMinor)+2*(1-purity))
+  BAF1 <- (purity*nMinor+(1-purity))/(purity*(nMajor+nMinor)+2*(1-purity))
+  BAF2 <- (purity*nMajor+(1-purity))/(purity*(nMajor+nMinor)+2*(1-purity))
   return(round(c(BAF1, BAF2), digits))
 }
 
@@ -60,11 +60,11 @@ computeBAF=function(nMajor, nMinor, purity, digits=4) {
 #' @author tlesluyes
 #' @export
 #' @seealso https://doi.org/10.1038/s41592-020-01013-2
-computeFit=function(logR, BAF, nMajor, nMinor, gamma, digits=4) {
+computeFit <- function(logR, BAF, nMajor, nMinor, gamma, digits=4) {
   stopifnot(all(is.numeric(c(logR, BAF, nMajor, nMinor, gamma, digits))))
-  rho=(2*BAF-1)/(2*BAF-BAF*(nMajor+nMinor)-1+nMajor)
-  psi=(rho*(nMajor+nMinor)+2-2*rho)/(2^(logR/gamma))
-  psit=(psi-2*(1-rho))/rho
+  rho <- (2*BAF-1)/(2*BAF-BAF*(nMajor+nMinor)-1+nMajor)
+  psi <- (rho*(nMajor+nMinor)+2-2*rho)/(2^(logR/gamma))
+  psit <- (psi-2*(1-rho))/rho
   return(list(rho=round(rho, digits), psi=round(psi, digits), psit=round(psit, digits)))
 }
 
@@ -83,9 +83,9 @@ computeFit=function(logR, BAF, nMajor, nMinor, gamma, digits=4) {
 #' reestimate_ploidy(0.74, 2.4, 0.61, 0)
 #' @author tlesluyes
 #' @export
-reestimate_ploidy=function(rho.old, psit.old, rho.new, WGD, digits=4) {
+reestimate_ploidy <- function(rho.old, psit.old, rho.new, WGD, digits=4) {
   stopifnot(all(is.numeric(c(rho.old, psit.old, rho.new, digits))))
-  COEF=2*(WGD+1)
+  COEF <- 2*(WGD+1)
   return(round(((rho.old*psit.old)+COEF*(rho.new-rho.old))/rho.new, digits))
 }
 
@@ -103,7 +103,7 @@ reestimate_ploidy=function(rho.old, psit.old, rho.new, WGD, digits=4) {
 #' reestimate_purity(0.74, 2.4, "double")
 #' @author tlesluyes
 #' @export
-reestimate_purity=function(rho.old, psit.old, switch, digits=4) {
+reestimate_purity <- function(rho.old, psit.old, switch, digits=4) {
   stopifnot(all(is.numeric(c(rho.old, psit.old, digits))))
   stopifnot(switch %in% c("double", "halve"))
   if (switch=="double") {

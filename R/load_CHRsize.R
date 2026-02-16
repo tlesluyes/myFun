@@ -6,7 +6,7 @@
 #' @examples load_CHRsize("hg38"); head(CHRsize)
 #' @author tlesluyes
 #' @export
-load_CHRsize=function(assembly) {
+load_CHRsize <- function(assembly) {
   if (assembly=="hg19") {
     message("Loading hg19 data")
     load(system.file("extdata", "CHRsize_hg19.rda", package="myFun"), envir=.GlobalEnv)

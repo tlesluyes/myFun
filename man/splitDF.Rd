@@ -25,7 +25,7 @@ Split a data.frame
 This function splits a data.frame into a list of data.frames.
 }
 \examples{
-DF=data.frame(a=1:26, b=letters)
+DF <- data.frame(a=1:26, b=letters)
 splitDF(DF, 3)
 }
 \author{

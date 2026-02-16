@@ -25,20 +25,20 @@ Compute the inter-sample agreement (ISA) for a batch of samples
 This function computes the inter-sample agreement (ISA) between multiple profiles (as a list of GRanges objects).
 }
 \examples{
-GR1=GenomicRanges::GRanges(seqnames=rep("1", 3),
-                           ranges=IRanges::IRanges(start=c(1, 1001, 10001),
-                                                   end=c(1000, 10000, 20000)),
-                           CNstatus=c("1+1", "2+1", "1+1"))
-GR2=GenomicRanges::GRanges(seqnames=rep("1", 2),
-                           ranges=IRanges::IRanges(start=c(500, 10001),
-                                                   end=c(10000, 25000)),
-                           CNstatus=c("2+1", "1+1"))
-GR3=GenomicRanges::GRanges(seqnames="1",
-                           ranges=IRanges::IRanges(start=500,
-                                                   end=25000),
-                           CNstatus="1+1")
-myGRList=list(GR1, GR2, GR3)
-names(myGRList)=c("GR1", "GR2", "GR3")
+GR1 <- GenomicRanges::GRanges(seqnames=rep("1", 3),
+                              ranges=IRanges::IRanges(start=c(1, 1001, 10001),
+                                                      end=c(1000, 10000, 20000)),
+                              CNstatus=c("1+1", "2+1", "1+1"))
+GR2 <- GenomicRanges::GRanges(seqnames=rep("1", 2),
+                              ranges=IRanges::IRanges(start=c(500, 10001),
+                                                      end=c(10000, 25000)),
+                              CNstatus=c("2+1", "1+1"))
+GR3 <- GenomicRanges::GRanges(seqnames="1",
+                              ranges=IRanges::IRanges(start=500,
+                                                      end=25000),
+                              CNstatus="1+1")
+myGRList <- list(GR1, GR2, GR3)
+names(myGRList) <- c("GR1", "GR2", "GR3")
 computeISA_batch(myGRList)
 }
 \author{

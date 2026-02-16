@@ -19,8 +19,8 @@ Check that the given object is a list of GRanges objects
 This function checks that the given object is a list of GRanges objects.
 }
 \examples{
-GR1=GenomicRanges::GRanges(seqnames="1", ranges=IRanges::IRanges(start=1, end=1000))
-GR2=GenomicRanges::GRanges(seqnames="1", ranges=IRanges::IRanges(start=10, end=2000))
+GR1 <- GenomicRanges::GRanges(seqnames="1", ranges=IRanges::IRanges(start=1, end=1000))
+GR2 <- GenomicRanges::GRanges(seqnames="1", ranges=IRanges::IRanges(start=10, end=2000))
 checkGRlist(list(GR1, GR2))
 }
 \author{

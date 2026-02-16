@@ -11,26 +11,26 @@
 #' @return A vector of all possible paths given as characters (separator=";")
 #' @author tlesluyes
 #' @noRd
-all_paths=function(start, end, WGD, max_path_size, simplify, path, path_size, OUT) {
+all_paths <- function(start, end, WGD, max_path_size, simplify, path, path_size, OUT) {
   # If the path is valid, store it
-  if (identical(start, end)) OUT=c(OUT, path)
+  if (identical(start, end)) OUT <- c(OUT, path)
   # Prevent infinite recursive calls
   if (path_size>max_path_size) return(OUT)
   # Get the alterations since the last WGD
-  lastAlterations=strsplit(path, ";")[[1]]
-  if ("WGD" %in% lastAlterations) lastAlterations=lastAlterations[(which.max(lastAlterations=="WGD")+1):length(lastAlterations)]
+  lastAlterations <- strsplit(path, ";")[[1]]
+  if ("WGD" %in% lastAlterations) lastAlterations <- lastAlterations[(which.max(lastAlterations=="WGD")+1):length(lastAlterations)]
   # This is the major allele, allow alterations if there is no HD (>0)
   if (start[1]>0) {
-    if (!simplify || ! "-1/-0" %in% lastAlterations) OUT=all_paths(c(start[1]+1, start[2]), end, WGD, max_path_size, simplify, paste(path, "+1/+0", sep=";"), path_size+1, OUT)
-    if (start[1]-1>=start[2] && (!simplify || ! "+1/+0" %in% lastAlterations)) OUT=all_paths(c(start[1]-1, start[2]), end, WGD, max_path_size, simplify, paste(path, "-1/-0", sep=";"), path_size+1, OUT)
+    if (!simplify || ! "-1/-0" %in% lastAlterations) OUT <- all_paths(c(start[1]+1, start[2]), end, WGD, max_path_size, simplify, paste(path, "+1/+0", sep=";"), path_size+1, OUT)
+    if (start[1]-1>=start[2] && (!simplify || ! "+1/+0" %in% lastAlterations)) OUT <- all_paths(c(start[1]-1, start[2]), end, WGD, max_path_size, simplify, paste(path, "-1/-0", sep=";"), path_size+1, OUT)
     # This is the minor allele, allow alterations if there is no LOH (>0)
     if (start[2]>0) {
-      if (start[1]>=start[2]+1 && (!simplify || ! "-0/-1" %in% lastAlterations)) OUT=all_paths(c(start[1], start[2]+1), end, WGD, max_path_size, simplify, paste(path, "+0/+1", sep=";"), path_size+1, OUT)
-      if (!simplify || ! "+0/+1" %in% lastAlterations) OUT=all_paths(c(start[1], start[2]-1), end, WGD, max_path_size, simplify, paste(path, "-0/-1", sep=";"), path_size+1, OUT)
+      if (start[1]>=start[2]+1 && (!simplify || ! "-0/-1" %in% lastAlterations)) OUT <- all_paths(c(start[1], start[2]+1), end, WGD, max_path_size, simplify, paste(path, "+0/+1", sep=";"), path_size+1, OUT)
+      if (!simplify || ! "+0/+1" %in% lastAlterations) OUT <- all_paths(c(start[1], start[2]-1), end, WGD, max_path_size, simplify, paste(path, "-0/-1", sep=";"), path_size+1, OUT)
     }
   }
   # If WGD is allowed, try it
-  if (WGD) OUT=all_paths(start*2, end, WGD, max_path_size, simplify, paste(path, "WGD", sep=";"), path_size+1, OUT)
+  if (WGD) OUT <- all_paths(start*2, end, WGD, max_path_size, simplify, paste(path, "WGD", sep=";"), path_size+1, OUT)
   # Return the vector of valid paths
   return(OUT)
 }
@@ -51,7 +51,7 @@ all_paths=function(start, end, WGD, max_path_size, simplify, path, path_size, OU
 #' # Chromosome X in males (1+0) is gained (5 copies)
 #' print(get_all_paths(start=c(1, 0), end=c(5, 0), WGD=TRUE))
 #' @export
-get_all_paths=function(start, end, WGD, max_path_size=5, simplify=TRUE) {
+get_all_paths <- function(start, end, WGD, max_path_size=5, simplify=TRUE) {
   # Check input parameters
   stopifnot(length(start)==2 && all(is.numeric(start)))
   stopifnot(start[1]>=start[2])
@@ -63,21 +63,21 @@ get_all_paths=function(start, end, WGD, max_path_size=5, simplify=TRUE) {
   stopifnot(start[1]>0 || (start[1]==0 && end[1]==0))
   stopifnot(start[2]>0 || (start[2]==0 && end[2]==0))
   # Run the recursive function
-  paths=all_paths(start=start,
-                  end=end,
-                  WGD=WGD,
-                  max_path_size=max_path_size,
-                  simplify=simplify,
-                  path=c("Start"),
-                  path_size=1,
-                  OUT=c())
+  paths <- all_paths(start=start,
+                     end=end,
+                     WGD=WGD,
+                     max_path_size=max_path_size,
+                     simplify=simplify,
+                     path=c("Start"),
+                     path_size=1,
+                     OUT=c())
   # Throw an error if no path is found
   if (length(paths)==0) {
     stop("Error: No valid paths found, try increasing max_path_size")
   }
   # Reformat the output
   stopifnot(all(sapply(strsplit(paths, ";"), "[", 1)=="Start"))
-  paths=gsub("^Start;?", "", paths)
+  paths <- gsub("^Start;?", "", paths)
   return(paths)
 }
 
@@ -95,24 +95,24 @@ get_all_paths=function(start, end, WGD, max_path_size=5, simplify=TRUE) {
 #' # Chromosome X in males (1+0) is gained (5 copies)
 #' print(get_shortest_path(get_all_paths(start=c(1, 0), end=c(5, 0), WGD=TRUE)))
 #' @export
-get_shortest_path=function(paths, wanted_WGD=NA, count_WGD=FALSE) {
+get_shortest_path <- function(paths, wanted_WGD=NA, count_WGD=FALSE) {
   # Check input parameters
   stopifnot(length(paths)>0 && all(is.character(paths)))
   stopifnot(length(wanted_WGD)==1 && (is.na(wanted_WGD) || is.numeric(wanted_WGD)))
   stopifnot(length(count_WGD)==1 && is.logical(count_WGD))
   # Check paths
-  paths=strsplit(paths, ";")
+  paths <- strsplit(paths, ";")
   stopifnot(all(unlist(paths) %in% c("+1/+0", "+0/+1", "-1/-0", "-0/-1", "WGD")))
   # If a number of WGD is wanted, go for it
   if (!is.na(wanted_WGD)) {
-    n_WGD=sapply(paths, function(x) length(which(x=="WGD")))
+    n_WGD <- sapply(paths, function(x) length(which(x=="WGD")))
     stopifnot(wanted_WGD %in% n_WGD)
-    paths=paths[which(n_WGD==wanted_WGD)]
+    paths <- paths[which(n_WGD==wanted_WGD)]
   }
-  path_size=sapply(paths, length)
-  if (!count_WGD) path_size=path_size-sapply(paths, function(x) length(which(x=="WGD")))
-  names(path_size)=sapply(paths, paste, collapse=";")
+  path_size <- sapply(paths, length)
+  if (!count_WGD) path_size <- path_size-sapply(paths, function(x) length(which(x=="WGD")))
+  names(path_size) <- sapply(paths, paste, collapse=";")
   # Keep the shortest path
-  path_size=path_size[which.min(path_size)]
+  path_size <- path_size[which.min(path_size)]
   return(path_size)
 }

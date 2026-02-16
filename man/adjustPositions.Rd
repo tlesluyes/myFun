@@ -36,7 +36,7 @@ Adjust genomic positions
 This function adjusts genomic positions according to the chromosome sizes. The first nucleotide of chromosome 2 corresponds to the size of the chromosome 1 + 1bp and so on.
 }
 \examples{
-DF=data.frame(chr=c(1:3), start=rep(1e6, 3), end=rep(125e6, 3))
+DF <- data.frame(chr=c(1:3), start=rep(1e6, 3), end=rep(125e6, 3))
 load_CHRsize("hg19")
 adjustPositions(DF, CHRsize)
 }

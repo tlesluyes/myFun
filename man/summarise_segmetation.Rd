@@ -27,11 +27,11 @@ Summarise segmentation data
 This function summarises segmentation data, typically logR and/or BAF values for individual SNPs or loci.
 }
 \examples{
-DF=data.frame(chr=c(rep("chr1", 10),rep("chr2", 6)),
-              pos=c(1:10*1e3, 1:6*1e3),
-              logR=c(rep(0, 4), rep(0.54, 3), rep(0, 3), rep(-0.86, 3), rep(0, 3)),
-              BAF=c(rep(0.5, 4), rep(0.34, 3), rep(0.5, 3), rep(0.09, 3), rep(0.5, 3)),
-              row.names=paste0("SNP_", 1:16))
+DF <- data.frame(chr=c(rep("chr1", 10),rep("chr2", 6)),
+                 pos=c(1:10*1e3, 1:6*1e3),
+                 logR=c(rep(0, 4), rep(0.54, 3), rep(0, 3), rep(-0.86, 3), rep(0, 3)),
+                 BAF=c(rep(0.5, 4), rep(0.34, 3), rep(0.5, 3), rep(0.09, 3), rep(0.5, 3)),
+                 row.names=paste0("SNP_", 1:16))
 DF
 summarise_segmetation(DF, "chr", "pos", "pos", c("logR", "BAF"))
 }

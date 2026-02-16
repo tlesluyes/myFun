@@ -22,7 +22,7 @@ This function provides several metrics of interest from a BED file/object.
 }
 \examples{
 # BED format is 0-based for starts!
-BED=data.frame(chr=c(c(1,1:3)), start=c(0, 1e3, 0, 1e3), end=c(2e3, 5e3, 2e3, 4e3))
+BED <- data.frame(chr=c(c(1,1:3)), start=c(0, 1e3, 0, 1e3), end=c(2e3, 5e3, 2e3, 4e3))
 BED_metrics(BED)
 }
 \author{

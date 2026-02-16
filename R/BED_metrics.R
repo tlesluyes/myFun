@@ -6,7 +6,7 @@
 #' @return A named list of metrics (number of chromosomes, number of regions and total size of the regions) before and after removing overlaps (`GenomicRanges::reduce()`). Strand information is not considered
 #' @examples
 #' # BED format is 0-based for starts!
-#' BED=data.frame(chr=c(c(1,1:3)), start=c(0, 1e3, 0, 1e3), end=c(2e3, 5e3, 2e3, 4e3))
+#' BED <- data.frame(chr=c(c(1,1:3)), start=c(0, 1e3, 0, 1e3), end=c(2e3, 5e3, 2e3, 4e3))
 #' BED_metrics(BED)
 #' @author tlesluyes
 #' @export

@@ -94,9 +94,9 @@ axis(1, at=CHRsize$middle, labels = CHRsize$chr, las=2)
 
 ```R
 require("GenomicRanges")
-GR1=GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), nMajor=1, nMinor=1)
-GR2=GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), nMajor=2, nMinor=1)
-GR3=GRanges(seqnames="1", ranges=IRanges(start=c(5, 21), end=c(20, 2000)), nMajor=c(1, 2), nMinor=c(1, 0))
+GR1 <- GRanges(seqnames="1", ranges=IRanges(start=1, end=1000), nMajor=1, nMinor=1)
+GR2 <- GRanges(seqnames="1", ranges=IRanges(start=10, end=2000), nMajor=2, nMinor=1)
+GR3 <- GRanges(seqnames="1", ranges=IRanges(start=c(5, 21), end=c(20, 2000)), nMajor=c(1, 2), nMinor=c(1, 0))
 harmonizeGRanges(list(GR1, GR2, GR3))
 # [[1]]
 # GRanges object with 2 ranges and 3 metadata columns:
@@ -130,16 +130,16 @@ harmonizeGRanges(list(GR1, GR2, GR3))
 
 ```R
 require("GenomicRanges")
-GR1=GRanges(seqnames=rep("1", 3),
-            ranges=IRanges(start=c(1, 1001, 10001), end=c(1000, 10000, 20000)),
-            CNstatus=c("1+1", "2+1", "1+1"),
-            nMajor=c(1, 2, 1),
-            nMinor=c(1, 1, 1))
-GR2=GRanges(seqnames=rep("1", 2),
-            ranges=IRanges(start=c(500, 10001), end=c(10000, 25000)),
-            CNstatus=c("2+1", "1+1"),
-            nMajor=c(2, 1),
-            nMinor=c(1, 1))
+GR1 <- GRanges(seqnames=rep("1", 3),
+               ranges=IRanges(start=c(1, 1001, 10001), end=c(1000, 10000, 20000)),
+               CNstatus=c("1+1", "2+1", "1+1"),
+               nMajor=c(1, 2, 1),
+               nMinor=c(1, 1, 1))
+GR2 <- GRanges(seqnames=rep("1", 2),
+               ranges=IRanges(start=c(500, 10001), end=c(10000, 25000)),
+               CNstatus=c("2+1", "1+1"),
+               nMajor=c(2, 1),
+               nMinor=c(1, 1))
 # in this example:
 #    Region 500-1000 (size=501) is 1+1 for GR1 and 2+1 for GR2
 #    Region 1001-20000 (size=19000) is identical between GR1 and GR2 (both 2+1 and 1+1)
@@ -154,7 +154,7 @@ computeMD(GR1, GR2, nMajor="nMajor", nMinor="nMinor") # Manhattan distance (bp)
 ### How do I go from a 1+1 copy-number state to a 2+0?
 
 ```R
-myPaths=get_all_paths(c(1, 1), c(2, 0), WGD=TRUE)
+myPaths <- get_all_paths(c(1, 1), c(2, 0), WGD=TRUE)
 print(myPaths)
 # [1] "+1/+0;-0/-1"                 "+1/+0;-0/-1;WGD;-1/-0;-1/-0"
 # [3] "-0/-1;+1/+0"                 "-0/-1;+1/+0;WGD;-1/-0;-1/-0"
@@ -174,7 +174,7 @@ get_shortest_path(myPaths, wanted_WGD=0) # shortest path without any WGD: 2 alte
 ### How to split a DF?
 
 ```R
-DF=data.frame(a=1:26, b=letters)
+DF <- data.frame(a=1:26, b=letters)
 splitDF(DF, 3)
 # $`0`
 #   a b
@@ -201,11 +201,11 @@ splitDF(DF, 3)
 ### How to summrise segmented SNP information?
 
 ```R
-DF=data.frame(chr=c(rep("chr1", 10), rep("chr2", 6)),
-              pos=c(1:10*1e3, 1:6*1e3),
-              logR=c(rep(0, 4), rep(0.54, 3), rep(0, 3), rep(-0.86, 3), rep(0, 3)),
-              BAF=c(rep(0.5, 4), rep(0.34, 3), rep(0.5, 3), rep(0.09, 3), rep(0.5, 3)),
-              row.names=paste0("SNP_", 1:16))
+DF <- data.frame(chr=c(rep("chr1", 10), rep("chr2", 6)),
+                 pos=c(1:10*1e3, 1:6*1e3),
+                 logR=c(rep(0, 4), rep(0.54, 3), rep(0, 3), rep(-0.86, 3), rep(0, 3)),
+                 BAF=c(rep(0.5, 4), rep(0.34, 3), rep(0.5, 3), rep(0.09, 3), rep(0.5, 3)),
+                 row.names=paste0("SNP_", 1:16))
 summarise_segmetation(DF, "chr", "pos", "pos", c("logR", "BAF"))
 # $segments
 #  chr start   end markers  logR  BAF segment
@@ -246,7 +246,7 @@ Rpackages()
 # ...
 
 # Show package dependencies
-myPackages=RpackageDependencies()
+myPackages <- RpackageDependencies()
 head(myPackages$nodes)
 print(myPackages$plot) # networkD3 plot
 ```

@@ -6,7 +6,7 @@
 #' @examples load_cytoband("hg38"); head(cytoband)
 #' @author tlesluyes
 #' @export
-load_cytoband=function(assembly) {
+load_cytoband <- function(assembly) {
   if (assembly=="hg19") {
     message("Loading hg19 data")
     load(system.file("extdata", "cytoband_hg19.rda", package="myFun"), envir=.GlobalEnv)
