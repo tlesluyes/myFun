@@ -13,5 +13,6 @@ checkGRlist <- function(myGRList) {
   stopifnot(typeof(myGRList)=="list") # myGRList must be a list
   stopifnot(length(myGRList)>1) # myGRList must have several entries
   stopifnot(all(sapply(myGRList, inherits, "GRanges"))) # All entries must be GRanges objects
+  stopifnot(all(sapply(myGRList, function(x) all(countOverlaps(x, x)==1)))) # All GRanges objects must not have overlapping ranges
   invisible(TRUE)
 }
