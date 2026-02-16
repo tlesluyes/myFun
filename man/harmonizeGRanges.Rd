@@ -4,12 +4,14 @@
 \alias{harmonizeGRanges}
 \title{harmonizeGRanges}
 \usage{
-harmonizeGRanges(myGRList, cores = 1)
+harmonizeGRanges(myGRList, cores = 1, keepHoles = FALSE)
 }
 \arguments{
 \item{myGRList}{a list of GRanges objects, each object should correspond to one CNA profile}
 
 \item{cores}{a numeric, the number of cores to use (default: 1)}
+
+\item{keepHoles}{a logical, whether to keep holes (regions not covered by all samples) in the output (default: FALSE)}
 }
 \value{
 A list of harmonized GRanges objects
