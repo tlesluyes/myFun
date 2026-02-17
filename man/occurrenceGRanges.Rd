@@ -4,12 +4,14 @@
 \alias{occurrenceGRanges}
 \title{occurrenceGRanges}
 \usage{
-occurrenceGRanges(myGRList, myMetadata)
+occurrenceGRanges(myGRList, myMetadata, computeP = TRUE)
 }
 \arguments{
 \item{myGRList}{a list of GRanges objects, each object should correspond to one CNA profile}
 
 \item{myMetadata}{a vector of metadata to consider}
+
+\item{computeP}{whether to compute the percentage of samples with specific metadata for each region (default: TRUE)}
 }
 \value{
 A GRanges object with nSamples as the total number of samples and metadata columns with the occurrence of events

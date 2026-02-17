@@ -5,9 +5,11 @@
 #' @param checkOverlaps whether to check for overlapping ranges in the GRanges object (default: TRUE)
 #' @return TRUE if the input is a valid GRanges object
 #' @examples
-#' GR1 <- GenomicRanges::GRanges(seqnames="1", ranges=IRanges::IRanges(start=c(1, 1001), end=c(1000, 2000)))
+#' GR1 <- GenomicRanges::GRanges(seqnames="1",
+#'                               ranges=IRanges::IRanges(start=c(1, 1001), end=c(1000, 2000)))
 #' checkGR(GR1)
-#' GR2 <- GenomicRanges::GRanges(seqnames="1", ranges=IRanges::IRanges(start=c(1, 500), end=c(1000, 1000)))
+#' GR2 <- GenomicRanges::GRanges(seqnames="1",
+#'                               ranges=IRanges::IRanges(start=c(1, 500), end=c(1000, 1000)))
 #' checkGR(GR2, checkOverlaps=FALSE)
 #' @author tlesluyes
 #' @export

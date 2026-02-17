@@ -22,7 +22,7 @@ adjustPositions(
 
 \item{start_column}{a column name with start position (default: "start")}
 
-\item{end_column}{a column name with end position (default: "end")}
+\item{end_column}{a column name with end position (default: "end"). If end does not exist (e.g. SNP positions), it should be set to the same column as start so it will be ignored}
 
 \item{suffix}{a suffix for the adjusted positions (default: "_adj")}
 }
