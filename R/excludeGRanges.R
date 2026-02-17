@@ -14,7 +14,7 @@
 #' @author tlesluyes
 #' @export
 excludeGRanges <- function(GR.ref, GR.toremove) {
-  stopifnot(inherits(GR.ref, "GRanges") && inherits(GR.toremove, "GRanges"))
+  stopifnot(checkGR(GR.ref) && checkGR(GR.toremove))
   GR.ref.tmp <- disjoin(c(GR.ref, GR.toremove))
   hits <- findOverlaps(GR.ref.tmp, GR.toremove)
   GR.ref.tmp <- GR.ref.tmp[-unique(queryHits(hits))]
