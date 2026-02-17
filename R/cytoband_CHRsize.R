@@ -104,3 +104,29 @@ get_arms <- function(assembly, withCentromeres=TRUE) {
   cytoband <- do.call(rbind, cytoband)
   return(cytoband)
 }
+
+#' @title get_centromeres
+#' @description Get centromeres information
+#' @details This function gets centromeres information for a given assembly.
+#' @param assembly an assembly (e.g. hg38) or a data.frame with expected cytoband information (chr, start, end, gieStain)
+#' @return A data.frame with genomic regions, can be converted to GRanges on the fly
+#' @examples get_centromeres("hg38")
+#' @author tlesluyes
+#' @export
+get_centromeres <- function(assembly) {
+  if (length(assembly)==1 && is.character(assembly)) {
+    load_cytoband(assembly)
+  } else if (is.data.frame(assembly)) {
+    cytoband <- assembly
+  } else {
+    stop("Unsupported input")
+  }
+  stopifnot(all(c("chr", "start", "end", "gieStain") %in% colnames(cytoband)))
+  cytoband <- cytoband[which(cytoband$gieStain=="acen"), ]
+  cytoband <- split(cytoband, factor(cytoband$chr, levels=unique(cytoband$chr)))
+  cytoband <- lapply(cytoband, function(x) {
+    return(data.frame(chr=unique(x$chr), start=min(x$start), end=max(x$end)))
+  })
+  cytoband <- do.call(rbind, cytoband)
+  return(cytoband)
+}
