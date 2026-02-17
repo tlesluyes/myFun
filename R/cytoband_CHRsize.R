@@ -130,3 +130,27 @@ get_centromeres <- function(assembly) {
   cytoband <- do.call(rbind, cytoband)
   return(cytoband)
 }
+
+#' @title get_Seqinfo
+#' @description Get Seqinfo object
+#' @details This function gets Seqinfo object for a given assembly.
+#' @param assembly an assembly (e.g. hg38) or a data.frame with expected cytoband information (chr, size)
+#' @param genome genome name (e.g. hg38), required if `assembly` is a data.frame (default: NA)
+#' @return A Seqinfo object
+#' @examples get_Seqinfo("hg38")
+#' @author tlesluyes
+#' @export
+get_Seqinfo <- function(assembly, genome=NA) {
+  if (length(assembly)==1 && is.character(assembly)) {
+    load_CHRsize(assembly)
+    genome <- assembly
+  } else if (is.data.frame(assembly)) {
+    CHRsize <- assembly
+    stopifnot(length(genome)==1 && is.character(genome))
+  } else {
+    stop("Unsupported input")
+  }
+  stopifnot(all(c("chr", "size") %in% colnames(CHRsize)))
+  myseqinfo <- Seqinfo(seqnames=CHRsize$chr, seqlengths=CHRsize$size, isCircular=rep(FALSE, nrow(CHRsize)), genome=genome)
+  return(myseqinfo)
+}
