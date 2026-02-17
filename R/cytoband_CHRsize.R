@@ -25,15 +25,8 @@ generate_cytoband_and_CHRsize <- function(cytoband_file) {
   }; rm(i)
   CHRsize$sum <- cumsum(as.numeric(CHRsize$size))
   CHRsize$add <- cumsum(as.numeric(c(0, CHRsize$size[1:23])))
-  cytoband$chr <- gsub("chr", "", cytoband$chr)
-  cytoband$start_adj <- cytoband$start
-  cytoband$end_adj <- cytoband$end
-  for (i in c(2:22, "X", "Y")) {
-    INDEX <- which(cytoband$chr==i)
-    cytoband$start_adj[INDEX] <- cytoband$start_adj[INDEX]+CHRsize$add[which(CHRsize$chr==i)]
-    cytoband$end_adj[INDEX] <- cytoband$end_adj[INDEX]+CHRsize$add[which(CHRsize$chr==i)]
-    rm(INDEX)
-  }; rm(i)
+  cytoband$chr <- gsub("^chr", "", cytoband$chr)
+  cytoband <- adjustPositions(cytoband, CHRsize)
   cytoband <- cytoband[order(cytoband$start_adj), ]
   return(list(cytoband=cytoband, CHRsize=CHRsize))
 }
