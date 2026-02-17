@@ -70,3 +70,37 @@ load_cytoband <- function(assembly) {
     stop("Unsupported assembly")
   }
 }
+
+#' @title get_arms
+#' @description Get chromosome arms information
+#' @details This function gets chromosome arms information for a given assembly.
+#' @param assembly an assembly (e.g. hg38) or a data.frame with expected cytoband information (chr, start, end, name, gieStain)
+#' @param withCentromeres whether to include centromeric regions (default: TRUE)
+#' @return A data.frame with genomic regions, can be converted to GRanges on the fly
+#' @examples get_arms("hg38")
+#' @author tlesluyes
+#' @export
+get_arms <- function(assembly, withCentromeres=TRUE) {
+  if (length(assembly)==1 && is.character(assembly)) {
+    load_cytoband(assembly)
+  } else if (is.data.frame(assembly)) {
+    cytoband <- assembly
+  } else {
+    stop("Unsupported input")
+  }
+  stopifnot(length(withCentromeres)==1 && is.logical(withCentromeres))
+  stopifnot(all(c("chr", "start", "end", "name") %in% colnames(cytoband)))
+  stopifnot(all(grepl("p|q", cytoband$name)))
+  if (isFALSE(withCentromeres)) {
+    stopifnot("gieStain" %in% colnames(cytoband))
+    cytoband <- cytoband[which(cytoband$gieStain!="acen"), ]
+  }
+  cytoband$arm <- paste0(cytoband$chr, gsub("^(p|q).*$", "\\1", cytoband$name))
+  cytoband <- split(cytoband, factor(cytoband$arm, levels=unique(cytoband$arm)))
+  cytoband <- lapply(cytoband, function(x) {
+    x <- x[order(x$start, x$end), ]
+    return(data.frame(chr=unique(x$chr), start=min(x$start), end=max(x$end), arm=unique(x$arm)))
+  })
+  cytoband <- do.call(rbind, cytoband)
+  return(cytoband)
+}
