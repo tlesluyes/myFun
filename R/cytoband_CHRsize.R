@@ -34,18 +34,22 @@ generate_cytoband_and_CHRsize <- function(cytoband_file) {
 #' @title load_CHRsize
 #' @description Load `CHRsize` information
 #' @details This function loads `CHRsize` information for a given assembly. It is then available as a data.frame called `CHRsize` in the environment.
-#' @param assembly an assembly (hg19 or hg38)
+#' @param assembly an assembly (hg19, hg38 or CHM13)
 #' @return A data.frame with the `CHRsize` information
 #' @examples load_CHRsize("hg38"); head(CHRsize)
 #' @author tlesluyes
 #' @export
 load_CHRsize <- function(assembly) {
+  stopifnot(length(assembly)==1 && is.character(assembly))
   if (assembly=="hg19") {
     message("Loading hg19 data")
     load(system.file("extdata", "CHRsize_hg19.rda", package="myFun"), envir=.GlobalEnv)
   } else if (assembly=="hg38") {
     message("Loading hg38 data")
     load(system.file("extdata", "CHRsize_hg38.rda", package="myFun"), envir=.GlobalEnv)
+  } else if (assembly=="CHM13") {
+    message("Loading CHM13 (v2.0) data")
+    load(system.file("extdata", "CHRsize_CHM13.rda", package="myFun"), envir=.GlobalEnv)
   } else {
     stop("Unsupported assembly")
   }
@@ -54,18 +58,22 @@ load_CHRsize <- function(assembly) {
 #' @title load_cytoband
 #' @description Load `cytoband` information
 #' @details This function loads `cytoband` information for a given assembly. It is then available as a data.frame called `cytoband` in the environment.
-#' @param assembly an assembly (hg19 or hg38)
+#' @param assembly an assembly (hg19, hg38 or CHM13)
 #' @return A data.frame with the `cytoband` information
 #' @examples load_cytoband("hg38"); head(cytoband)
 #' @author tlesluyes
 #' @export
 load_cytoband <- function(assembly) {
+  stopifnot(length(assembly)==1 && is.character(assembly))
   if (assembly=="hg19") {
     message("Loading hg19 data")
     load(system.file("extdata", "cytoband_hg19.rda", package="myFun"), envir=.GlobalEnv)
   } else if (assembly=="hg38") {
     message("Loading hg38 data")
     load(system.file("extdata", "cytoband_hg38.rda", package="myFun"), envir=.GlobalEnv)
+  } else if (assembly=="CHM13") {
+    message("Loading CHM13 (v2.0) data")
+    load(system.file("extdata", "cytoband_CHM13.rda", package="myFun"), envir=.GlobalEnv)
   } else {
     stop("Unsupported assembly")
   }
