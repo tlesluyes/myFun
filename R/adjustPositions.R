@@ -5,7 +5,7 @@
 #' @param CHRsize a data.frame from the `load_CHRsize` function
 #' @param chr_column a column name with chromosome information (default: "chr")
 #' @param start_column a column name with start position (default: "start")
-#' @param end_column a column name with end position (default: "end")
+#' @param end_column a column name with end position (default: "end"). If end does not exist (e.g. SNP positions), it should be set to the same column as start so it will be ignored
 #' @param suffix a suffix for the adjusted positions (default: "_adj")
 #' @return A data.frame with adjusted genomic positions
 #' @examples
@@ -18,16 +18,13 @@ adjustPositions <- function(DF, CHRsize, chr_column="chr", start_column="start",
   stopifnot(is.data.frame(DF))
   stopifnot(is.data.frame(CHRsize))
   stopifnot(all(c(chr_column, start_column, end_column) %in% colnames(DF)))
-  DF[, chr_column] <- gsub("^chr", "", DF[, chr_column])
+  stopifnot(all(c("chr", "add") %in% colnames(CHRsize)))
+  stopifnot(all(gsub("^chr", "", DF[, chr_column]) %in% CHRsize$chr))
   DF[, paste0(start_column, suffix)] <- DF[, start_column]
-  DF[, paste0(end_column, suffix)] <- DF[, end_column]
-  for (CHR in c(2:22, "X", "Y")) {
-    INDEX <- which(DF[, chr_column]==CHR)
-    if (length(INDEX>0)) {
-      DF[INDEX, paste0(start_column, suffix)] <- DF[INDEX, paste0(start_column, suffix)]+CHRsize$add[which(CHRsize$chr==CHR)]
-      DF[INDEX, paste0(end_column, suffix)] <- DF[INDEX, paste0(end_column, suffix)]+CHRsize$add[which(CHRsize$chr==CHR)]
-    }
-    rm(INDEX)
-  }; rm(CHR)
+  if (end_column != start_column) DF[, paste0(end_column, suffix)] <- DF[, end_column]
+  matches <- match(gsub("^chr", "", DF[, chr_column]), CHRsize$chr)
+  stopifnot(! any(is.na(matches)))
+  DF[, paste0(start_column, suffix)] <- DF[, paste0(start_column, suffix)] + CHRsize$add[matches]
+  if (end_column != start_column) DF[, paste0(end_column, suffix)] <- DF[, paste0(end_column, suffix)] + CHRsize$add[matches]
   return(DF)
 }
