@@ -25,6 +25,7 @@ computeISA <- function(GR1, GR2, CNstatus="CNstatus") {
   checkGRlist(list(GR1, GR2))
   stopifnot(all(sapply(list(GR1, GR2), function(x) CNstatus %in% names(mcols(x)))))
   profiles <- harmonizeGRanges(list(GR1, GR2))
+  profiles <- cleanGRlistMetadata(profiles, metadataCols=CNstatus)
   sameCN <- which(mcols(profiles[[1]])[, CNstatus]==mcols(profiles[[2]])[, CNstatus])
   return(sum(width(profiles[[1]][sameCN, ]))/sum(width(profiles[[1]]))*100)
 }
@@ -65,6 +66,7 @@ computeISA_batch <- function(myGRList, cores=1, min_seg_size=0, CNstatus="CNstat
     NAMES <- names(myGRList)
   }
   myGRList <- harmonizeGRanges(myGRList, cores=cores)
+  myGRList <- cleanGRlistMetadata(myGRList, metadataCols=CNstatus)
   if (min_seg_size>0) {
     TO_KEEP <- width(myGRList[[1]])>min_seg_size
     myGRList <- lapply(myGRList, function(x) x[TO_KEEP, ])

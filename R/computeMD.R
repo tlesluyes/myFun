@@ -32,6 +32,7 @@ computeMD <- function(GR1, GR2, nMajor="nMajor", nMinor="nMinor", convertMb=FALS
   stopifnot(all(sapply(list(GR1, GR2), function(x) is.numeric(mcols(x)[, nMajor]))))
   stopifnot(all(sapply(list(GR1, GR2), function(x) is.numeric(mcols(x)[, nMinor]))))
   profiles <- harmonizeGRanges(list(GR1, GR2))
+  profiles <- cleanGRlistMetadata(profiles, metadataCols=c(nMajor, nMinor))
   MD <- sum((abs(mcols(profiles[[1]])[, nMajor]-mcols(profiles[[2]])[, nMajor])+abs(mcols(profiles[[1]])[, nMinor]-mcols(profiles[[2]])[, nMinor]))*width(profiles[[1]]))
   if (convertMb) MD <- MD/1e6
   return(MD)
@@ -81,6 +82,7 @@ computeMD_batch <- function(myGRList, cores=1, min_seg_size=0, nMajor="nMajor", 
     NAMES <- names(myGRList)
   }
   myGRList <- harmonizeGRanges(myGRList, cores=cores)
+  myGRList <- cleanGRlistMetadata(myGRList, metadataCols=c(nMajor, nMinor))
   if (min_seg_size>0) {
     TO_KEEP <- width(myGRList[[1]])>min_seg_size
     myGRList <- lapply(myGRList, function(x) x[TO_KEEP, ])
