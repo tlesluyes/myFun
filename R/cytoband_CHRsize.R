@@ -42,14 +42,14 @@ generate_cytoband_and_CHRsize <- function(cytoband_file) {
 load_CHRsize <- function(assembly) {
   stopifnot(length(assembly)==1 && is.character(assembly))
   if (assembly=="hg19") {
-    message("Loading hg19 data")
-    load(system.file("extdata", "CHRsize_hg19.rda", package="myFun"), envir=.GlobalEnv)
+    if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading hg19 CHRsize data")
+    load(system.file("extdata", "CHRsize_hg19.rda", package="myFun"), envir=parent.frame())
   } else if (assembly=="hg38") {
-    message("Loading hg38 data")
-    load(system.file("extdata", "CHRsize_hg38.rda", package="myFun"), envir=.GlobalEnv)
+    if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading hg38 CHRsize data")
+    load(system.file("extdata", "CHRsize_hg38.rda", package="myFun"), envir=parent.frame())
   } else if (assembly=="CHM13") {
-    message("Loading CHM13 (v2.0) data")
-    load(system.file("extdata", "CHRsize_CHM13.rda", package="myFun"), envir=.GlobalEnv)
+    if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading CHM13 (v2.0) CHRsize data")
+    load(system.file("extdata", "CHRsize_CHM13.rda", package="myFun"), envir=parent.frame())
   } else {
     stop("Unsupported assembly")
   }
@@ -66,14 +66,14 @@ load_CHRsize <- function(assembly) {
 load_cytoband <- function(assembly) {
   stopifnot(length(assembly)==1 && is.character(assembly))
   if (assembly=="hg19") {
-    message("Loading hg19 data")
-    load(system.file("extdata", "cytoband_hg19.rda", package="myFun"), envir=.GlobalEnv)
+    if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading hg19 cytoband data")
+    load(system.file("extdata", "cytoband_hg19.rda", package="myFun"), envir=parent.frame())
   } else if (assembly=="hg38") {
-    message("Loading hg38 data")
-    load(system.file("extdata", "cytoband_hg38.rda", package="myFun"), envir=.GlobalEnv)
+    if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading hg38 cytoband data")
+    load(system.file("extdata", "cytoband_hg38.rda", package="myFun"), envir=parent.frame())
   } else if (assembly=="CHM13") {
-    message("Loading CHM13 (v2.0) data")
-    load(system.file("extdata", "cytoband_CHM13.rda", package="myFun"), envir=.GlobalEnv)
+    if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading CHM13 (v2.0) cytoband data")
+    load(system.file("extdata", "cytoband_CHM13.rda", package="myFun"), envir=parent.frame())
   } else {
     stop("Unsupported assembly")
   }
