@@ -162,3 +162,16 @@ get_Seqinfo <- function(assembly, genome=NA) {
   myseqinfo <- Seqinfo(seqnames=CHRsize$chr, seqlengths=CHRsize$size, isCircular=rep(FALSE, nrow(CHRsize)), genome=genome)
   return(myseqinfo)
 }
+
+#' @title seqinfo2GR
+#' @description Convert Seqinfo to GRanges
+#' @details This function generates a GRanges object from a Seqinfo object.
+#' @param myseqinfo a Seqinfo object
+#' @return A GRanges object
+#' @examples seqinfo2GR(get_Seqinfo("hg38"))
+#' @author tlesluyes
+#' @export
+seqinfo2GR <- function(myseqinfo) {
+  stopifnot(is(myseqinfo, "Seqinfo"))
+  return(GRanges(seqnames=seqnames(myseqinfo), ranges=IRanges(start=1, end=seqlengths(myseqinfo)), seqinfo=myseqinfo))
+}
