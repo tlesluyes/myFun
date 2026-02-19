@@ -175,3 +175,29 @@ seqinfo2GR <- function(myseqinfo) {
   stopifnot(is(myseqinfo, "Seqinfo"))
   return(GRanges(seqnames=seqnames(myseqinfo), ranges=IRanges(start=1, end=seqlengths(myseqinfo)), seqinfo=myseqinfo))
 }
+
+#' @title add_arm_info
+#' @description Add arm information to a GRanges object
+#' @details This function adds arm information (e.g. 1q, 17p) to a GRanges object.
+#' @param myGR a GRanges object
+#' @param assembly an assembly (e.g. hg38)
+#' @return A GRanges object with arm information added
+#' @examples add_arm_info(GenomicRanges::GRanges(seqnames=c("1", "17"),
+#'                                               ranges=IRanges::IRanges(start=c(150e6, 1),
+#'                                                                       end=c(200e6, 20e6))),
+#'                        "hg38")
+#' @author tlesluyes
+#' @export
+add_arm_info <- function(myGR, assembly) {
+  stopifnot(checkGR(myGR))
+  myseqinfo <- get_Seqinfo(assembly)
+  if (any(is.na(genome(myGR)))) {
+    seqlevels(myGR) <- seqlevels(myseqinfo)
+    seqinfo(myGR) <- myseqinfo
+  }
+  chr_arms <- makeGRangesFromDataFrame(get_arms(assembly), seqinfo = myseqinfo, keep.extra.columns = TRUE)
+  myGR <- harmonizeGRanges(list(myGR=myGR, chr_arms=chr_arms))
+  myGR[["myGR"]]$arm <- myGR[["chr_arms"]]$arm
+  myGR <- myGR[["myGR"]]
+  return(myGR)
+}
