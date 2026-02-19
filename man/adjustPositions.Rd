@@ -5,8 +5,8 @@
 \title{adjustPositions}
 \usage{
 adjustPositions(
-  DF,
-  CHRsize,
+  input,
+  CHRsize = NULL,
   chr_column = "chr",
   start_column = "start",
   end_column = "end",
@@ -14,20 +14,20 @@ adjustPositions(
 )
 }
 \arguments{
-\item{DF}{a data.frame}
+\item{input}{a GRanges object (its seqinfo must be set) or a data.frame}
 
-\item{CHRsize}{a data.frame from the \code{load_CHRsize} function}
+\item{CHRsize}{a data.frame from the \code{load_CHRsize} function to be used if \code{input} is a data.frame (default: NULL)}
 
-\item{chr_column}{a column name with chromosome information (default: "chr")}
+\item{chr_column}{a column name with chromosome information (default: "chr"; unused if \code{input} is a GRanges object)}
 
-\item{start_column}{a column name with start position (default: "start")}
+\item{start_column}{a column name with start position (default: "start"; unused if \code{input} is a GRanges object)}
 
-\item{end_column}{a column name with end position (default: "end"). If end does not exist (e.g. SNP positions), it should be set to the same column as start so it will be ignored}
+\item{end_column}{a column name with end position (default: "end"; unused if \code{input} is a GRanges object). If end does not exist (e.g. SNP positions), it should be set to the same column as start so it will be ignored}
 
 \item{suffix}{a suffix for the adjusted positions (default: "_adj")}
 }
 \value{
-A data.frame with adjusted genomic positions
+An object (depending on the input type) with adjusted genomic positions
 }
 \description{
 Adjust genomic positions
@@ -36,9 +36,13 @@ Adjust genomic positions
 This function adjusts genomic positions according to the chromosome sizes. The first nucleotide of chromosome 2 corresponds to the size of the chromosome 1 + 1bp and so on.
 }
 \examples{
-DF <- data.frame(chr=c(1:3), start=rep(1e6, 3), end=rep(125e6, 3))
-load_CHRsize("hg19")
-adjustPositions(DF, CHRsize)
+CNAprofile.GR <- example_CNAs(n=1, assembly="hg38")[[1]]
+CNAprofile.DF <- data.frame(CNAprofile.GR)
+load_CHRsize("hg38")
+output.DF <- adjustPositions(CNAprofile.DF, CHRsize, chr_column="seqnames")
+output.GR <- adjustPositions(CNAprofile.GR)
+stopifnot(all(output.DF$start_adj == output.GR$start_adj))
+stopifnot(all(output.DF$end_adj == output.GR$end_adj))
 }
 \author{
 tlesluyes

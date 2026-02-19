@@ -1,8 +1,8 @@
 Package: myFun
 Type: Package
 Title: myFun is a Collection of My Favourite R Functions, Packaged for Simplicity
-Version: 1.1.1
-Date: 2026-02-18
+Version: 1.1.2
+Date: 2026-02-19
 Authors@R: person("Tom", "Lesluyes", email = "lesluyes.tom@iuct-oncopole.fr", role = c("aut", "cre"))
 Author: Tom Lesluyes [aut, cre]
 Maintainer: Tom Lesluyes <lesluyes.tom@iuct-oncopole.fr>
@@ -13,13 +13,14 @@ License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 3.4.0)
+    R (>= 3.5.0)
 Imports:
     doParallel,
     foreach,
     GenomeInfoDb,
     GenomicRanges,
     IRanges,
+    methods,
     networkD3,
     rvest,
     S4Vectors,
