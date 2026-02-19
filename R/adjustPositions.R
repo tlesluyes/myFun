@@ -9,9 +9,10 @@
 #' @param suffix a suffix for the adjusted positions (default: "_adj")
 #' @return A data.frame with adjusted genomic positions
 #' @examples
-#' DF <- data.frame(chr=c(1:3), start=rep(1e6, 3), end=rep(125e6, 3))
-#' load_CHRsize("hg19")
-#' adjustPositions(DF, CHRsize)
+#' CNAprofile <- example_CNAs(n=1, assembly="hg38")[[1]]
+#' CNAprofile <- data.frame(CNAprofile)
+#' load_CHRsize("hg38")
+#' adjustPositions(CNAprofile, CHRsize, chr_column="seqnames")
 #' @author tlesluyes
 #' @export
 adjustPositions <- function(DF, CHRsize, chr_column="chr", start_column="start", end_column="end", suffix="_adj") {
