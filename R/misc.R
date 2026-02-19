@@ -1,6 +1,6 @@
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach %do% %dopar% foreach
-#' @importFrom GenomeInfoDb seqnames Seqinfo
+#' @importFrom GenomeInfoDb seqnames seqinfo Seqinfo
 #' @importFrom GenomicRanges countOverlaps disjoin GRanges granges GRangesList makeGRangesFromDataFrame pintersect reduce setdiff
 #' @importFrom IRanges findOverlapPairs findOverlaps IRanges width
 #' @importFrom networkD3 forceNetwork saveNetwork
