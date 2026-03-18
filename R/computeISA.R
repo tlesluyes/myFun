@@ -84,5 +84,6 @@ computeISA_batch <- function(myGRList, cores=1, min_seg_size=0, CNstatus="CNstat
   ISA <- ISA*100
   rownames(ISA) <- NAMES
   colnames(ISA) <- NAMES
+  if (cores>1) stopImplicitCluster()
   return(ISA)
 }

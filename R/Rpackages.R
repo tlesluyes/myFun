@@ -71,7 +71,7 @@ myGroupsDeps <- function(x) {
 #' @param customFolder a vector of folder names (default: NULL; .libPaths() is used)
 #' @param customDependencyTypes a vector of dependency types, possible values are: "Depends", "Imports", "LinkingTo", "Suggests" and "Enhances" (default: c("Depends", "Imports", "LinkingTo"))
 #' @param customColours a named vector of colours. Names must correspond to the dependency types and values must be valid colours (default: NULL; an internal colour scheme is used)
-#' @param simplifyNetwork a boolean defining if the network should be simplified, i.e. the R base packages are removed (default: TRUE)
+#' @param simplifyNetwork a boolean, defines whether the network should be simplified, i.e. the R base packages are removed (default: TRUE)
 #' @param saveFile a string defining the name of the HTML file where the network should be saved (default: NULL; no file is saved)
 #' @return A list with nodes (a data.frame of R packages), links (a data.frame of package dependencies) and plot (a network plot using networkD3)
 #' @examples
@@ -109,7 +109,7 @@ RpackageDependencies <- function(customFolder=NULL, customDependencyTypes=NULL, 
     stopifnot(all(names(customColours) %in% customDependencyTypes))
   }
 
-  stopifnot(length(simplifyNetwork)==1 && is.logical(simplifyNetwork))
+  stopifnot(length(simplifyNetwork)==1, is.logical(simplifyNetwork))
 
   PACKAGES <- foreach(DIR=customFolder, .final=function(x) setNames(x, names(customFolder))) %do% {
     DIR <- get("DIR")

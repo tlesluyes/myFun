@@ -11,7 +11,7 @@ get_shortest_path(paths, wanted_WGD = NA, count_WGD = FALSE)
 
 \item{wanted_WGD}{a numeric value defining the number of WGD events wanted (can be NA to allow for any possibility, including no event at all; default: NA)}
 
-\item{count_WGD}{a boolean defining if the number of WGD events should be counted (default: FALSE)}
+\item{count_WGD}{a boolean, defines whether the number of WGD events should be counted (default: FALSE)}
 }
 \value{
 A numeric value representing the minimal number of events, its name represents the full path

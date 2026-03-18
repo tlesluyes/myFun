@@ -103,7 +103,7 @@ Also, genomic regions have been harmonized using the `harmonizeGRanges` function
 From there, we may exclude genomic regions such as centromeres.
 
 ```R
-centromeres <- get_centromeres("hg38")
+centromeres <- get_centromeres("hg38", extended=FALSE)
 head(centromeres, n=3)
 # chr     start       end
 #   1 121700001 125100000

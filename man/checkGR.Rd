@@ -9,7 +9,7 @@ checkGR(myGR, checkOverlaps = TRUE)
 \arguments{
 \item{myGR}{a GRanges object}
 
-\item{checkOverlaps}{whether to check for overlapping ranges in the GRanges object (default: TRUE)}
+\item{checkOverlaps}{a boolean, whether to check for overlapping ranges in the GRanges object (default: TRUE)}
 }
 \value{
 TRUE if the input is a valid GRanges object

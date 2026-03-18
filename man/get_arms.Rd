@@ -9,7 +9,7 @@ get_arms(assembly, withCentromeres = TRUE)
 \arguments{
 \item{assembly}{an assembly (e.g. hg38) or a data.frame with expected cytoband information (chr, start, end, name, gieStain)}
 
-\item{withCentromeres}{whether to include centromeric regions (default: TRUE)}
+\item{withCentromeres}{a boolean, whether to include centromeric regions (default: TRUE)}
 }
 \value{
 A data.frame with genomic regions, can be converted to GRanges on the fly

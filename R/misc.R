@@ -1,8 +1,8 @@
-#' @importFrom doParallel registerDoParallel
+#' @importFrom doParallel registerDoParallel stopImplicitCluster
 #' @importFrom foreach %do% %dopar% foreach
 #' @importFrom GenomeInfoDb genome seqnames seqinfo seqinfo<- Seqinfo seqlengths seqlevels seqlevels<-
 #' @importFrom GenomicRanges countOverlaps disjoin GRanges granges GRangesList makeGRangesFromDataFrame pintersect reduce setdiff
-#' @importFrom IRanges end findOverlapPairs findOverlaps IRanges start width
+#' @importFrom IRanges end findOverlapPairs findOverlaps IRanges reduce start width
 #' @importFrom methods is
 #' @importFrom networkD3 forceNetwork saveNetwork
 #' @importFrom rvest html_table read_html

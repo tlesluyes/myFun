@@ -40,9 +40,9 @@ all_paths <- function(start, end, WGD, max_path_size, simplify, path, path_size,
 #' @details This function returns all possible paths between two copy-number states. The expected input is allele-specific (with two values), but it can be used for total copy-number by setting c(ntot, 0). Possible events include: +1/+0 (gain of the major allele), -1/-0 (loss of the major allele), +0/+1 (gain of the minor allele), -0/-1 (loss of the minor allele) and WGD.
 #' @param start a vector of length 2 (representing a copy-number state; e.g. c(1, 1) represents a 1+1 state), defining where to start
 #' @param end a vector of length 2 (representing a copy-number state; e.g. c(1, 1) represents a 1+1 state), defining where to end
-#' @param WGD a boolean defining if WGD events are allowed
-#' @param max_path_size an integer defining the maximum path size
-#' @param simplify a boolean defining if consecutive and opposite alterations (e.g. +1/+0 and then -1/-0) are allowed
+#' @param WGD a boolean, defines whether WGD events are allowed
+#' @param max_path_size an integer, defines the maximum path size
+#' @param simplify a boolean, defines whether consecutive and opposite alterations (e.g. +1/+0 and then -1/-0) are allowed
 #' @return A vector of all possible paths given as characters (separator=";")
 #' @author tlesluyes
 #' @examples
@@ -53,13 +53,13 @@ all_paths <- function(start, end, WGD, max_path_size, simplify, path, path_size,
 #' @export
 get_all_paths <- function(start, end, WGD, max_path_size=5, simplify=TRUE) {
   # Check input parameters
-  stopifnot(length(start)==2 && all(is.numeric(start)))
+  stopifnot(length(start)==2, all(is.numeric(start)))
   stopifnot(start[1]>=start[2])
-  stopifnot(length(end)==2 && all(is.numeric(end)))
+  stopifnot(length(end)==2, all(is.numeric(end)))
   stopifnot(end[1]>=end[2])
-  stopifnot(length(max_path_size)==1 && is.numeric(max_path_size))
-  stopifnot(length(WGD)==1 && is.logical(WGD))
-  stopifnot(length(simplify)==1 && is.logical(simplify))
+  stopifnot(length(max_path_size)==1, is.numeric(max_path_size))
+  stopifnot(length(WGD)==1, is.logical(WGD))
+  stopifnot(length(simplify)==1, is.logical(simplify))
   stopifnot(start[1]>0 || (start[1]==0 && end[1]==0))
   stopifnot(start[2]>0 || (start[2]==0 && end[2]==0))
   # Run the recursive function
@@ -86,7 +86,7 @@ get_all_paths <- function(start, end, WGD, max_path_size=5, simplify=TRUE) {
 #' @details This function returns the shortest possible path. It should be used after running the get_all_paths function or can be used as long as the input format is correct.
 #' @param paths all possible paths to consider
 #' @param wanted_WGD a numeric value defining the number of WGD events wanted (can be NA to allow for any possibility, including no event at all; default: NA)
-#' @param count_WGD a boolean defining if the number of WGD events should be counted (default: FALSE)
+#' @param count_WGD a boolean, defines whether the number of WGD events should be counted (default: FALSE)
 #' @return A numeric value representing the minimal number of events, its name represents the full path
 #' @author tlesluyes
 #' @examples
@@ -97,9 +97,9 @@ get_all_paths <- function(start, end, WGD, max_path_size=5, simplify=TRUE) {
 #' @export
 get_shortest_path <- function(paths, wanted_WGD=NA, count_WGD=FALSE) {
   # Check input parameters
-  stopifnot(length(paths)>0 && all(is.character(paths)))
-  stopifnot(length(wanted_WGD)==1 && (is.na(wanted_WGD) || is.numeric(wanted_WGD)))
-  stopifnot(length(count_WGD)==1 && is.logical(count_WGD))
+  stopifnot(length(paths)>0, all(is.character(paths)))
+  stopifnot(length(wanted_WGD)==1, (is.na(wanted_WGD) || is.numeric(wanted_WGD)))
+  stopifnot(length(count_WGD)==1, is.logical(count_WGD))
   # Check paths
   paths <- strsplit(paths, ";")
   stopifnot(all(unlist(paths) %in% c("+1/+0", "+0/+1", "-1/-0", "-0/-1", "WGD")))

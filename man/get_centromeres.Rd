@@ -4,10 +4,12 @@
 \alias{get_centromeres}
 \title{get_centromeres}
 \usage{
-get_centromeres(assembly)
+get_centromeres(assembly, extended = TRUE)
 }
 \arguments{
 \item{assembly}{an assembly (e.g. hg38) or a data.frame with expected cytoband information (chr, start, end, gieStain)}
+
+\item{extended}{a boolean, whether to add problematic regions (e.g. 13p, 14p, etc.) to centromeric ones (default: TRUE). Strict centromeric regions are defined as 'acen' Giemsa stain, extended regions also include 'gvar' and 'stalk' Giemsa stains}
 }
 \value{
 A data.frame with genomic regions, can be converted to GRanges on the fly

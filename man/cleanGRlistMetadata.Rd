@@ -11,7 +11,7 @@ cleanGRlistMetadata(myGRList, metadataCols, checkOverlaps = TRUE)
 
 \item{metadataCols}{a character vector of metadata column names to check for missing values}
 
-\item{checkOverlaps}{whether to check for overlapping ranges in the GRanges objects (default: TRUE)}
+\item{checkOverlaps}{a boolean, whether to check for overlapping ranges in the GRanges objects (default: TRUE)}
 }
 \value{
 A list of cleaned GRanges objects with the same regions but only those with complete metadata across all samples

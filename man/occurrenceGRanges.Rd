@@ -11,7 +11,7 @@ occurrenceGRanges(myGRList, myMetadata, computeP = TRUE)
 
 \item{myMetadata}{a vector of metadata to consider}
 
-\item{computeP}{whether to compute the percentage of samples with specific metadata for each region (default: TRUE)}
+\item{computeP}{a boolean, whether to compute the percentage of samples with specific metadata for each region (default: TRUE)}
 }
 \value{
 A GRanges object with nSamples as the total number of samples and metadata columns with the occurrence of events

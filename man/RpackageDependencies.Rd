@@ -19,7 +19,7 @@ RpackageDependencies(
 
 \item{customColours}{a named vector of colours. Names must correspond to the dependency types and values must be valid colours (default: NULL; an internal colour scheme is used)}
 
-\item{simplifyNetwork}{a boolean defining if the network should be simplified, i.e. the R base packages are removed (default: TRUE)}
+\item{simplifyNetwork}{a boolean, defines whether the network should be simplified, i.e. the R base packages are removed (default: TRUE)}
 
 \item{saveFile}{a string defining the name of the HTML file where the network should be saved (default: NULL; no file is saved)}
 }

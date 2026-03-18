@@ -27,7 +27,7 @@
 #' @export
 computeMD <- function(GR1, GR2, nMajor="nMajor", nMinor="nMinor", convertMb=FALSE) {
   checkGRlist(list(GR1, GR2))
-  stopifnot(length(convertMb)==1 && is.logical(convertMb))
+  stopifnot(length(convertMb)==1, is.logical(convertMb))
   stopifnot(all(sapply(list(GR1, GR2), function(x) all(c(nMajor, nMinor) %in% names(mcols(x))))))
   stopifnot(all(sapply(list(GR1, GR2), function(x) is.numeric(mcols(x)[, nMajor]))))
   stopifnot(all(sapply(list(GR1, GR2), function(x) is.numeric(mcols(x)[, nMinor]))))
@@ -72,7 +72,7 @@ computeMD <- function(GR1, GR2, nMajor="nMajor", nMinor="nMinor", convertMb=FALS
 computeMD_batch <- function(myGRList, cores=1, min_seg_size=0, nMajor="nMajor", nMinor="nMinor", convertMb=FALSE) {
   if (cores>1) registerDoParallel(cores=cores)
   checkGRlist(myGRList)
-  stopifnot(length(convertMb)==1 && is.logical(convertMb))
+  stopifnot(length(convertMb)==1, is.logical(convertMb))
   stopifnot(all(sapply(myGRList, function(x) all(c(nMajor, nMinor) %in% names(mcols(x))))))
   stopifnot(all(sapply(myGRList, function(x) is.numeric(mcols(x)[, nMajor]))))
   stopifnot(all(sapply(myGRList, function(x) is.numeric(mcols(x)[, nMinor]))))
@@ -99,5 +99,6 @@ computeMD_batch <- function(myGRList, cores=1, min_seg_size=0, nMajor="nMajor", 
   rownames(MD) <- NAMES
   colnames(MD) <- NAMES
   if (convertMb) MD <- MD/1e6
+  if (cores>1) stopImplicitCluster()
   return(MD)
 }

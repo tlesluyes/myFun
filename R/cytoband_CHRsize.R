@@ -40,7 +40,7 @@ generate_cytoband_and_CHRsize <- function(cytoband_file) {
 #' @author tlesluyes
 #' @export
 load_CHRsize <- function(assembly) {
-  stopifnot(length(assembly)==1 && is.character(assembly))
+  stopifnot(length(assembly)==1, is.character(assembly))
   if (assembly=="hg19") {
     if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading hg19 CHRsize data")
     load(system.file("extdata", "CHRsize_hg19.rda", package="myFun"), envir=parent.frame())
@@ -64,7 +64,7 @@ load_CHRsize <- function(assembly) {
 #' @author tlesluyes
 #' @export
 load_cytoband <- function(assembly) {
-  stopifnot(length(assembly)==1 && is.character(assembly))
+  stopifnot(length(assembly)==1, is.character(assembly))
   if (assembly=="hg19") {
     if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading hg19 cytoband data")
     load(system.file("extdata", "cytoband_hg19.rda", package="myFun"), envir=parent.frame())
@@ -83,7 +83,7 @@ load_cytoband <- function(assembly) {
 #' @description Get chromosome arms information
 #' @details This function gets chromosome arms information for a given assembly.
 #' @param assembly an assembly (e.g. hg38) or a data.frame with expected cytoband information (chr, start, end, name, gieStain)
-#' @param withCentromeres whether to include centromeric regions (default: TRUE)
+#' @param withCentromeres a boolean, whether to include centromeric regions (default: TRUE)
 #' @return A data.frame with genomic regions, can be converted to GRanges on the fly
 #' @examples get_arms("hg38")
 #' @author tlesluyes
@@ -117,11 +117,13 @@ get_arms <- function(assembly, withCentromeres=TRUE) {
 #' @description Get centromeres information
 #' @details This function gets centromeres information for a given assembly.
 #' @param assembly an assembly (e.g. hg38) or a data.frame with expected cytoband information (chr, start, end, gieStain)
+#' @param extended a boolean, whether to add problematic regions (e.g. 13p, 14p, etc.) to centromeric ones (default: TRUE). Strict centromeric regions are defined as 'acen' Giemsa stain, extended regions also include 'gvar' and 'stalk' Giemsa stains
 #' @return A data.frame with genomic regions, can be converted to GRanges on the fly
 #' @examples get_centromeres("hg38")
 #' @author tlesluyes
 #' @export
-get_centromeres <- function(assembly) {
+get_centromeres <- function(assembly, extended=TRUE) {
+  stopifnot(length(extended)==1, is.logical(extended))
   if (length(assembly)==1 && is.character(assembly)) {
     load_cytoband(assembly)
   } else if (is.data.frame(assembly)) {
@@ -129,13 +131,17 @@ get_centromeres <- function(assembly) {
   } else {
     stop("Unsupported input")
   }
+  topick <- "acen"
+  if (isTRUE(extended)) {
+    topick <- c(topick, "gvar", "stalk")
+  }
   stopifnot(all(c("chr", "start", "end", "gieStain") %in% colnames(cytoband)))
-  cytoband <- cytoband[which(cytoband$gieStain=="acen"), ]
-  cytoband <- split(cytoband, factor(cytoband$chr, levels=unique(cytoband$chr)))
-  cytoband <- lapply(cytoband, function(x) {
-    return(data.frame(chr=unique(x$chr), start=min(x$start), end=max(x$end)))
-  })
-  cytoband <- do.call(rbind, cytoband)
+  cytoband <- cytoband[which(cytoband$gieStain %in% topick), ]
+  cytoband <- makeGRangesFromDataFrame(cytoband)
+  cytoband <- reduce(cytoband)
+  cytoband <- as.data.frame(cytoband)
+  colnames(cytoband)[1] <- "chr"
+  cytoband <- cytoband[, c("chr", "start", "end")]
   return(cytoband)
 }
 
@@ -154,7 +160,7 @@ get_Seqinfo <- function(assembly, genome=NA) {
     genome <- assembly
   } else if (is.data.frame(assembly)) {
     CHRsize <- assembly
-    stopifnot(length(genome)==1 && is.character(genome))
+    stopifnot(length(genome)==1, is.character(genome))
   } else {
     stop("Unsupported input")
   }

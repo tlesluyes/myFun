@@ -11,7 +11,7 @@ harmonizeGRanges(myGRList, cores = 1, keepHoles = FALSE)
 
 \item{cores}{a numeric, the number of cores to use (default: 1)}
 
-\item{keepHoles}{a logical, whether to keep holes (regions not covered by all samples) in the output (default: FALSE)}
+\item{keepHoles}{a boolean, whether to keep holes (regions not covered by all samples) in the output (default: FALSE)}
 }
 \value{
 A list of harmonized GRanges objects

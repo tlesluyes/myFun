@@ -11,11 +11,11 @@ get_all_paths(start, end, WGD, max_path_size = 5, simplify = TRUE)
 
 \item{end}{a vector of length 2 (representing a copy-number state; e.g. c(1, 1) represents a 1+1 state), defining where to end}
 
-\item{WGD}{a boolean defining if WGD events are allowed}
+\item{WGD}{a boolean, defines whether WGD events are allowed}
 
-\item{max_path_size}{an integer defining the maximum path size}
+\item{max_path_size}{an integer, defines the maximum path size}
 
-\item{simplify}{a boolean defining if consecutive and opposite alterations (e.g. +1/+0 and then -1/-0) are allowed}
+\item{simplify}{a boolean, defines whether consecutive and opposite alterations (e.g. +1/+0 and then -1/-0) are allowed}
 }
 \value{
 A vector of all possible paths given as characters (separator=";")

@@ -3,7 +3,7 @@
 #' @details This function gets the occurrence of events in a list of GRanges objects. All objects must have the same metadata columns and metadata must be TRUE/FALSE.
 #' @param myGRList a list of GRanges objects, each object should correspond to one CNA profile
 #' @param myMetadata a vector of metadata to consider
-#' @param computeP whether to compute the percentage of samples with specific metadata for each region (default: TRUE)
+#' @param computeP a boolean, whether to compute the percentage of samples with specific metadata for each region (default: TRUE)
 #' @return A GRanges object with nSamples as the total number of samples and metadata columns with the occurrence of events
 #' @examples
 #' GR1 <- GenomicRanges::GRanges(seqnames="1",
