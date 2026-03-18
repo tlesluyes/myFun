@@ -10,6 +10,9 @@
 #' @author tlesluyes
 #' @export
 example_CNAs <- function(n=1, assembly="hg38", seed=1234) {
+  stopifnot(is_integerish(n, n=1))
+  stopifnot(is_character(assembly, n=1))
+  stopifnot(is_integerish(seed, n=1))
   load_CHRsize(assembly)
   CHRsize <- CHRsize[1:22, ]
   mydefaultGR <- GRanges(seqnames=CHRsize$chr,

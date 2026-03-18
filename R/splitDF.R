@@ -12,10 +12,10 @@
 #' @author tlesluyes
 #' @export
 splitDF <- function(DF, chunks, shuffle=FALSE, seed=1234) {
-  stopifnot(length(chunks)==1, chunks==as.integer(chunks))
+  stopifnot(is_integerish(chunks, n=1))
   stopifnot(is.data.frame(DF), nrow(DF)>chunks)
-  stopifnot(length(shuffle)==1, is.logical(shuffle))
-  stopifnot(length(seed)==1, seed==as.integer(seed))
+  stopifnot(is_logical(shuffle, n=1), !is.na(shuffle))
+  stopifnot(is_integerish(seed, n=1))
   if (shuffle) {
     set.seed(seed)
     DF <- DF[sample(1:nrow(DF), nrow(DF)), ]

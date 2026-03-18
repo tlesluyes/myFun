@@ -9,6 +9,8 @@
 #' @export
 Rpackages <- function(CRAN_URL="http://cran.us.r-project.org",
                       Bioconductor_URL="https://www.bioconductor.org/packages/release/bioc/") {
+  stopifnot(is_character(CRAN_URL, n=1))
+  stopifnot(is_character(Bioconductor_URL, n=1))
   # Pick CRAN packages
   CRAN <- as.data.frame(available.packages(repos=CRAN_URL))[, c("Package"), drop=FALSE]
   CRAN$Source <- "CRAN"
@@ -43,6 +45,7 @@ Rpackages <- function(CRAN_URL="http://cran.us.r-project.org",
 #' @author tlesluyes
 #' @noRd
 cleanStringDeps <- function(x) {
+  stopifnot(is_character(x))
   x <- gsub("\\\n", "", x)
   x <- gsub("\\( ?>=? ?[0-9.\\-]+ ?\\)", "", x)
   x <- gsub("^ ", "", x)
@@ -58,6 +61,7 @@ cleanStringDeps <- function(x) {
 #' @author tlesluyes
 #' @noRd
 myGroupsDeps <- function(x) {
+  stopifnot(is_integerish(x))
   out <- rep("TBD", length(x))
   out[x==0] <- "No"
   out[x>0 & x<10] <- "Few"
@@ -85,7 +89,7 @@ RpackageDependencies <- function(customFolder=NULL, customDependencyTypes=NULL, 
   if (is.null(customFolder)) {
     customFolder <- .libPaths()
   } else {
-    stopifnot(all(dir.exists(customFolder)))
+    stopifnot(is_character(customFolder), all(dir.exists(customFolder)))
   }
   customFolder <- dir(customFolder, full.names=TRUE)
   customFolder <- customFolder[which(!duplicated(basename(customFolder)))]
@@ -96,7 +100,7 @@ RpackageDependencies <- function(customFolder=NULL, customDependencyTypes=NULL, 
   if (is.null(customDependencyTypes)) {
     customDependencyTypes <- c("Depends", "Imports", "LinkingTo")
   } else {
-    stopifnot(all(customDependencyTypes %in% c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
+    stopifnot(is_character(customDependencyTypes), all(customDependencyTypes %in% c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
   }
 
   if (is.null(customColours)) {
@@ -106,10 +110,12 @@ RpackageDependencies <- function(customFolder=NULL, customDependencyTypes=NULL, 
                        "Suggests"="#f5c71033",
                        "Enhances"="#61d04f33")
   } else {
-    stopifnot(all(names(customColours) %in% customDependencyTypes))
+    stopifnot(is_character(names(customColours)), all(names(customColours) %in% customDependencyTypes))
   }
 
-  stopifnot(length(simplifyNetwork)==1, is.logical(simplifyNetwork))
+  stopifnot(is_logical(simplifyNetwork, n=1), !is.na(simplifyNetwork))
+
+  stopifnot(is.null(saveFile) | is_character(saveFile, n=1))
 
   PACKAGES <- foreach(DIR=customFolder, .final=function(x) setNames(x, names(customFolder))) %do% {
     DIR <- get("DIR")

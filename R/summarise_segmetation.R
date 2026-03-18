@@ -18,6 +18,11 @@
 #' @author tlesluyes
 #' @export
 summarise_segmetation <- function(DF, col_chr, col_start, col_end, col_values) {
+  stopifnot(is.data.frame(DF))
+  stopifnot(is_character(col_chr, n=1))
+  stopifnot(is_character(col_start, n=1))
+  stopifnot(is_character(col_end, n=1))
+  stopifnot(is_vector(col_values), is_character(col_values))
   tmp <- data.frame(chr=DF[, col_chr], start=DF[, col_start], end=DF[, col_end], row.names=rownames(DF))
   tmp <- cbind(tmp, values=DF[, col_values])
   colnames(tmp)[4:ncol(tmp)] <- col_values

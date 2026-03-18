@@ -16,7 +16,11 @@
 #' @author tlesluyes
 #' @export
 computeLogR <- function(nMajor, nMinor, purity, ploidy, digits=4) {
-  stopifnot(all(is.numeric(c(nMajor, nMinor, purity, ploidy, digits))))
+  stopifnot(is_integerish(nMajor, n=1))
+  stopifnot(is_integerish(nMinor, n=1))
+  stopifnot(is_double(purity, n=1))
+  stopifnot(is_double(ploidy, n=1))
+  stopifnot(is_integerish(digits, n=1))
   round(log2((purity*(nMajor+nMinor)+2*(1-purity))/(purity*ploidy+2*(1-purity))), digits)
 }
 
@@ -37,7 +41,10 @@ computeLogR <- function(nMajor, nMinor, purity, ploidy, digits=4) {
 #' @author tlesluyes
 #' @export
 computeBAF <- function(nMajor, nMinor, purity, digits=4) {
-  stopifnot(all(is.numeric(c(nMajor, nMinor, purity, digits))))
+  stopifnot(is_integerish(nMajor, n=1))
+  stopifnot(is_integerish(nMinor, n=1))
+  stopifnot(is_double(purity, n=1))
+  stopifnot(is_integerish(digits, n=1))
   BAF1 <- (purity*nMinor+(1-purity))/(purity*(nMajor+nMinor)+2*(1-purity))
   BAF2 <- (purity*nMajor+(1-purity))/(purity*(nMajor+nMinor)+2*(1-purity))
   return(round(c(BAF1, BAF2), digits))
@@ -61,7 +68,12 @@ computeBAF <- function(nMajor, nMinor, purity, digits=4) {
 #' @export
 #' @seealso https://doi.org/10.1038/s41592-020-01013-2
 computeFit <- function(logR, BAF, nMajor, nMinor, gamma, digits=4) {
-  stopifnot(all(is.numeric(c(logR, BAF, nMajor, nMinor, gamma, digits))))
+  stopifnot(is_double(logR, n=1))
+  stopifnot(is_double(BAF, n=1))
+  stopifnot(is_integerish(nMajor, n=1))
+  stopifnot(is_integerish(nMinor, n=1))
+  stopifnot(is_double(gamma, n=1))
+  stopifnot(is_integerish(digits, n=1))
   rho <- (2*BAF-1)/(2*BAF-BAF*(nMajor+nMinor)-1+nMajor)
   psi <- (rho*(nMajor+nMinor)+2-2*rho)/(2^(logR/gamma))
   psit <- (psi-2*(1-rho))/rho
@@ -84,7 +96,11 @@ computeFit <- function(logR, BAF, nMajor, nMinor, gamma, digits=4) {
 #' @author tlesluyes
 #' @export
 reestimate_ploidy <- function(rho.old, psit.old, rho.new, WGD, digits=4) {
-  stopifnot(all(is.numeric(c(rho.old, psit.old, rho.new, digits))))
+  stopifnot(is_double(rho.old, n=1))
+  stopifnot(is_double(psit.old, n=1))
+  stopifnot(is_double(rho.new, n=1))
+  stopifnot(is_integerish(WGD, n=1))
+  stopifnot(is_integerish(digits, n=1))
   COEF <- 2*(WGD+1)
   return(round(((rho.old*psit.old)+COEF*(rho.new-rho.old))/rho.new, digits))
 }
@@ -104,8 +120,10 @@ reestimate_ploidy <- function(rho.old, psit.old, rho.new, WGD, digits=4) {
 #' @author tlesluyes
 #' @export
 reestimate_purity <- function(rho.old, psit.old, switch, digits=4) {
-  stopifnot(all(is.numeric(c(rho.old, psit.old, digits))))
-  stopifnot(switch %in% c("double", "halve"))
+  stopifnot(is_double(rho.old, n=1))
+  stopifnot(is_double(psit.old, n=1))
+  stopifnot(is_character(switch, n=1), switch %in% c("double", "halve"))
+  stopifnot(is_integerish(digits, n=1))
   if (switch=="double") {
     return(round(rho.old/(2-rho.old), digits))
   } else {
