@@ -14,7 +14,8 @@
 #' @author tlesluyes
 #' @export
 checkGR <- function(myGR, checkOverlaps=TRUE) {
-  stopifnot(inherits(myGR, "GRanges")) # Entry must be a GRanges object
+  stopifnot(is(myGR, "GRanges")) # Entry must be a GRanges object
+  stopifnot(is_logical(checkOverlaps, n=1), !is.na(checkOverlaps))
   if (checkOverlaps) {
     stopifnot(all(countOverlaps(myGR, myGR)==1)) # GRanges object must not have overlapping ranges
   }
@@ -34,8 +35,9 @@ checkGR <- function(myGR, checkOverlaps=TRUE) {
 #' @author tlesluyes
 #' @export
 checkGRlist <- function(myGRList, checkOverlaps=TRUE) {
-  stopifnot(typeof(myGRList)=="list") # myGRList must be a list
+  stopifnot(is_list(myGRList)) # myGRList must be a list
   stopifnot(length(myGRList)>1) # myGRList must have several entries
+  stopifnot(is_logical(checkOverlaps, n=1), !is.na(checkOverlaps))
   stopifnot(all(sapply(myGRList, checkGR, checkOverlaps=checkOverlaps))) # All entries must be valid GRanges objects
   invisible(TRUE)
 }
@@ -62,7 +64,7 @@ checkGRlist <- function(myGRList, checkOverlaps=TRUE) {
 #' @export
 cleanGRlistMetadata <- function(myGRList, metadataCols, checkOverlaps=TRUE) {
   stopifnot(checkGRlist(myGRList, checkOverlaps=checkOverlaps))
-  stopifnot(length(metadataCols)>0, is.character(metadataCols))
+  stopifnot(length(metadataCols)>0, is_character(metadataCols))
   stopifnot(all(sapply(2:length(myGRList), function(x) {identical(granges(myGRList[[1]]), granges(myGRList[[x]]))}))) # Make sure regions are strictly identical
   stopifnot(all(sapply(myGRList, function(x) all(metadataCols %in% names(mcols(x))))))
   KEEP <- apply(do.call(cbind, lapply(myGRList, function(x) mcols(x)[, metadataCols])), 1, function(x) all(! is.na(x)))

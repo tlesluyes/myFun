@@ -12,6 +12,14 @@
 #' @author tlesluyes
 #' @noRd
 all_paths <- function(start, end, WGD, max_path_size, simplify, path, path_size, OUT) {
+  stopifnot(is_integerish(start, n=2))
+  stopifnot(is_integerish(end, n=2))
+  stopifnot(is_logical(WGD, n=1), !is.na(WGD))
+  stopifnot(is_integerish(max_path_size, n=1))
+  stopifnot(is_logical(simplify, n=1), !is.na(simplify))
+  stopifnot(is_character(path, n=1))
+  stopifnot(is_integerish(path_size, n=1))
+  if (length(OUT)>0) stopifnot(is_vector(OUT), is_character(OUT))
   # If the path is valid, store it
   if (identical(start, end)) OUT <- c(OUT, path)
   # Prevent infinite recursive calls
@@ -53,13 +61,13 @@ all_paths <- function(start, end, WGD, max_path_size, simplify, path, path_size,
 #' @export
 get_all_paths <- function(start, end, WGD, max_path_size=5, simplify=TRUE) {
   # Check input parameters
-  stopifnot(length(start)==2, all(is.numeric(start)))
+  stopifnot(is_integerish(start, n=2))
   stopifnot(start[1]>=start[2])
-  stopifnot(length(end)==2, all(is.numeric(end)))
+  stopifnot(is_integerish(end, n=2))
   stopifnot(end[1]>=end[2])
-  stopifnot(length(max_path_size)==1, is.numeric(max_path_size))
-  stopifnot(length(WGD)==1, is.logical(WGD))
-  stopifnot(length(simplify)==1, is.logical(simplify))
+  stopifnot(is_logical(WGD, n=1), !is.na(WGD))
+  stopifnot(is_integerish(max_path_size, n=1))
+  stopifnot(is_logical(simplify, n=1), !is.na(simplify))
   stopifnot(start[1]>0 || (start[1]==0 && end[1]==0))
   stopifnot(start[2]>0 || (start[2]==0 && end[2]==0))
   # Run the recursive function
@@ -97,9 +105,9 @@ get_all_paths <- function(start, end, WGD, max_path_size=5, simplify=TRUE) {
 #' @export
 get_shortest_path <- function(paths, wanted_WGD=NA, count_WGD=FALSE) {
   # Check input parameters
-  stopifnot(length(paths)>0, all(is.character(paths)))
-  stopifnot(length(wanted_WGD)==1, (is.na(wanted_WGD) || is.numeric(wanted_WGD)))
-  stopifnot(length(count_WGD)==1, is.logical(count_WGD))
+  stopifnot(is_vector(paths), is_character(paths))
+  stopifnot(is_na(wanted_WGD) || is_integerish(wanted_WGD, n=1))
+  stopifnot(is_logical(count_WGD, n=1), !is.na(count_WGD))
   # Check paths
   paths <- strsplit(paths, ";")
   stopifnot(all(unlist(paths) %in% c("+1/+0", "+0/+1", "-1/-0", "-0/-1", "WGD")))

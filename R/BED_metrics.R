@@ -11,9 +11,9 @@
 #' @author tlesluyes
 #' @export
 BED_metrics <- function(BED, verbose=TRUE) {
-  stopifnot(length(verbose)==1 && is.logical(verbose))
-  stopifnot(is.data.frame(BED) || class(BED)=="GRanges" || file.exists(BED))
-  if (is.character(BED)) {
+  stopifnot(is_logical(verbose, n=1), !is.na(verbose))
+  stopifnot(is.data.frame(BED) || is(BED, "GRanges") || (is_character(BED, n=1) && file.exists(BED)))
+  if (is_character(BED, n=1)) {
     BED <- read.table(BED, sep="\t", header=FALSE, stringsAsFactors=FALSE)
   }
   if (is.data.frame(BED)) {

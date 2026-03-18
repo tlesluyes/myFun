@@ -19,8 +19,10 @@
 #' @author tlesluyes
 #' @export
 adjustPositions <- function(input, CHRsize=NULL, chr_column="chr", start_column="start", end_column="end", suffix="_adj") {
+  stopifnot(is_character(suffix, n=1))
   if (is.data.frame(input)) {
     stopifnot(is.data.frame(CHRsize))
+    stopifnot(is_character(chr_column, n=1), is_character(start_column, n=1), is_character(end_column, n=1))
     stopifnot(all(c(chr_column, start_column, end_column) %in% colnames(input)))
     stopifnot(all(c("chr", "add") %in% colnames(CHRsize)))
     stopifnot(all(gsub("^chr", "", input[, chr_column]) %in% CHRsize$chr))

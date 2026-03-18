@@ -17,8 +17,8 @@
 #' @export
 occurrenceGRanges <- function(myGRList, myMetadata, computeP=TRUE) {
   checkGRlist(myGRList)
-  stopifnot(typeof(myMetadata)=="character")
-  stopifnot(length(computeP) == 1 && is.logical(computeP))
+  stopifnot(is_character(myMetadata))
+  stopifnot(is_logical(computeP, n=1), !is.na(computeP))
   stopifnot(all(sapply(myGRList, function(x) all(myMetadata %in% names(mcols(x)))))) # Make sure metadata exists
   OUT <- disjoin(Reduce(c, myGRList)) # Create a list of all regions
   OUT$nSamples <- countOverlaps(OUT, GRangesList(myGRList)) # Get the number of samples for each region

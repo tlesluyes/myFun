@@ -23,6 +23,7 @@
 #' @export
 computeISA <- function(GR1, GR2, CNstatus="CNstatus") {
   checkGRlist(list(GR1, GR2))
+  stopifnot(is_character(CNstatus, n=1))
   stopifnot(all(sapply(list(GR1, GR2), function(x) CNstatus %in% names(mcols(x)))))
   profiles <- harmonizeGRanges(list(GR1, GR2))
   profiles <- cleanGRlistMetadata(profiles, metadataCols=CNstatus)
@@ -57,8 +58,11 @@ computeISA <- function(GR1, GR2, CNstatus="CNstatus") {
 #' @author tlesluyes
 #' @export
 computeISA_batch <- function(myGRList, cores=1, min_seg_size=0, CNstatus="CNstatus") {
-  if (cores>1) registerDoParallel(cores=cores)
   checkGRlist(myGRList)
+  stopifnot(is_integerish(cores, n=1))
+  stopifnot(is_integerish(min_seg_size, n=1))
+  stopifnot(is_character(CNstatus, n=1))
+  if (cores>1) registerDoParallel(cores=cores)
   stopifnot(all(sapply(myGRList, function(x) all("CNstatus" %in% names(mcols(x))))))
   if (is.null(names(myGRList))) {
     NAMES <- as.character(1:length(myGRList))

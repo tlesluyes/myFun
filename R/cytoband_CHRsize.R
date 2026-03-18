@@ -7,6 +7,7 @@
 #' @author tlesluyes
 #' @export
 generate_cytoband_and_CHRsize <- function(cytoband_file) {
+  stopifnot(is_character(cytoband_file, n=1), file.exists(cytoband_file))
   cytoband <- read.table(paste0(cytoband_file), header=TRUE, stringsAsFactors=FALSE, sep="\t")
   colnames(cytoband)[1:3] <- c("chr", "start", "end")
   cytoband <- cytoband[which(cytoband$chr %in% paste0(rep(c("", "chr"), each=24), rep(c(1:22, "X", "Y"), 2))), ]
@@ -40,7 +41,7 @@ generate_cytoband_and_CHRsize <- function(cytoband_file) {
 #' @author tlesluyes
 #' @export
 load_CHRsize <- function(assembly) {
-  stopifnot(length(assembly)==1, is.character(assembly))
+  stopifnot(is_character(assembly, n=1))
   if (assembly=="hg19") {
     if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading hg19 CHRsize data")
     load(system.file("extdata", "CHRsize_hg19.rda", package="myFun"), envir=parent.frame())
@@ -64,7 +65,7 @@ load_CHRsize <- function(assembly) {
 #' @author tlesluyes
 #' @export
 load_cytoband <- function(assembly) {
-  stopifnot(length(assembly)==1, is.character(assembly))
+  stopifnot(is_character(assembly, n=1))
   if (assembly=="hg19") {
     if (environmentName(parent.frame())=="R_GlobalEnv") message("Loading hg19 cytoband data")
     load(system.file("extdata", "cytoband_hg19.rda", package="myFun"), envir=parent.frame())
@@ -89,14 +90,14 @@ load_cytoband <- function(assembly) {
 #' @author tlesluyes
 #' @export
 get_arms <- function(assembly, withCentromeres=TRUE) {
-  if (length(assembly)==1 && is.character(assembly)) {
+  stopifnot(is_logical(withCentromeres, n=1), !is.na(withCentromeres))
+  if (is_character(assembly, n=1)) {
     load_cytoband(assembly)
   } else if (is.data.frame(assembly)) {
     cytoband <- assembly
   } else {
     stop("Unsupported input")
   }
-  stopifnot(length(withCentromeres)==1 && is.logical(withCentromeres))
   stopifnot(all(c("chr", "start", "end", "name") %in% colnames(cytoband)))
   stopifnot(all(grepl("p|q", cytoband$name)))
   if (isFALSE(withCentromeres)) {
@@ -123,8 +124,8 @@ get_arms <- function(assembly, withCentromeres=TRUE) {
 #' @author tlesluyes
 #' @export
 get_centromeres <- function(assembly, extended=TRUE) {
-  stopifnot(length(extended)==1, is.logical(extended))
-  if (length(assembly)==1 && is.character(assembly)) {
+  stopifnot(is_logical(extended, n=1), !is.na(extended))
+  if (is_character(assembly, n=1)) {
     load_cytoband(assembly)
   } else if (is.data.frame(assembly)) {
     cytoband <- assembly
@@ -155,12 +156,12 @@ get_centromeres <- function(assembly, extended=TRUE) {
 #' @author tlesluyes
 #' @export
 get_Seqinfo <- function(assembly, genome=NA) {
-  if (length(assembly)==1 && is.character(assembly)) {
+  if (is_character(assembly, n=1)) {
     load_CHRsize(assembly)
     genome <- assembly
   } else if (is.data.frame(assembly)) {
     CHRsize <- assembly
-    stopifnot(length(genome)==1, is.character(genome))
+    stopifnot(is_character(genome, n=1))
   } else {
     stop("Unsupported input")
   }
@@ -195,7 +196,8 @@ seqinfo2GR <- function(myseqinfo) {
 #' @author tlesluyes
 #' @export
 add_arm_info <- function(myGR, assembly) {
-  stopifnot(checkGR(myGR))
+  checkGR(myGR)
+  stopifnot(is_character(assembly, n=1))
   myseqinfo <- get_Seqinfo(assembly)
   if (any(is.na(genome(myGR)))) {
     seqlevels(myGR) <- seqlevels(myseqinfo)

@@ -16,10 +16,10 @@
 #' @author tlesluyes
 #' @export
 harmonizeGRanges <- function(myGRList, cores=1, keepHoles=FALSE) {
-  stopifnot(length(cores)==1, is.numeric(cores), cores>=1)
-  stopifnot(length(keepHoles)==1, is.logical(keepHoles))
-  if (cores>1) registerDoParallel(cores=cores)
   checkGRlist(myGRList)
+  stopifnot(is_integerish(cores, n=1), cores>=1)
+  stopifnot(is_logical(keepHoles, n=1), !is.na(keepHoles))
+  if (cores>1) registerDoParallel(cores=cores)
   ALL_REGIONS <- disjoin(Reduce(c, myGRList)) # Create a list of all regions
   if (isTRUE(keepHoles)) {
     myGRList <- foreach(x=myGRList, .final=function(x) setNames(x, names(myGRList))) %dopar% {return(sort(pintersect(findOverlapPairs(c(x, setdiff(ALL_REGIONS, x)), ALL_REGIONS))))}
